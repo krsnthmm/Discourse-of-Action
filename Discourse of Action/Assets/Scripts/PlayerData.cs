@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu]
 public class PlayerData : ScriptableObject
 {
     private int _currHealth;
@@ -9,11 +10,11 @@ public class PlayerData : ScriptableObject
     private string _name;
     public enum Character
     {
-        CHARACTER_MASC,
-        CHARACTER_FEM
+        CHARACTER_MASC = 0,
+        CHARACTER_FEM = 1
     }
 
-    private Character _selectedCharacter;
+    public Character _selectedCharacter;
 
     // Start is called before the first frame update
     void Start()
@@ -60,5 +61,14 @@ public class PlayerData : ScriptableObject
     public void SetCharacter(Character character)
     {
         _selectedCharacter = character;
+    }
+
+    public void SetName(string name)
+    {
+        this.name = name;
+    }
+    public string GetName()
+    {
+        return name;
     }
 }
