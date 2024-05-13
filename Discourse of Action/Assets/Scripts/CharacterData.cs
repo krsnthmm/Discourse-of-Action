@@ -3,17 +3,13 @@ using UnityEngine;
 public abstract class CharacterData : ScriptableObject
 {
     public string characterName;
+    public RuntimeAnimatorController characterAnimController;
     public int currHealth;
-    private int _maxHealth = 100;
+    public int maxHealth = 100;
 
     void Awake()
     {
-        currHealth = _maxHealth;
-    }
-
-    public int GetMaxHealth()
-    {
-        return _maxHealth;
+        currHealth = maxHealth;
     }
 
     public void TakeDamage(int value)
@@ -28,12 +24,7 @@ public abstract class CharacterData : ScriptableObject
     {
         currHealth += value;
 
-        if (currHealth > _maxHealth)
-            currHealth = _maxHealth;
-    }
-
-    public void SetMaxHealth(int value)
-    {
-        _maxHealth = value;
+        if (currHealth > maxHealth)
+            currHealth = maxHealth;
     }
 }

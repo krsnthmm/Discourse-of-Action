@@ -291,10 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d20d2d1f4aee284cb4462e5ca075e18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animatorControllers:
-  - {fileID: 9100000, guid: 3595ba9e1b9f8554a95cef2451c9b91d, type: 2}
-  - {fileID: 9100000, guid: 8cfdaf6876bc6ed409bf219f8d896c1a, type: 2}
-  _animator: {fileID: 285805695}
+  animator: {fileID: 285805695}
 --- !u!114 &285805694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,12 +495,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ae40c5e4a194a40b9815d6cba0aae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerData: {fileID: 11400000, guid: cb3037b7c4695094c9d5c8f36fdd0fc1, type: 2}
   playerController: {fileID: 285805691}
   inputController: {fileID: 285805694}
   gameState: 0
   menuSceneName: MenuScene
   overworldSceneName: GameScene
   battleSceneName: CombatScene
+  enemies:
+  - {fileID: 11400000, guid: c01fc9556d8a4d64eade1bc802843671, type: 2}
+  - {fileID: 11400000, guid: 47d71ee73886c9f4cb46f75c2bfa2c2a, type: 2}
+  enemyToBattle: {fileID: 11400000, guid: c01fc9556d8a4d64eade1bc802843671, type: 2}
 --- !u!4 &447249150
 Transform:
   m_ObjectHideFlags: 0

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Super Rare Reasoning
   m_EditorClassIdentifier: 
   cardTier: 2
-  cardType: 0
+  cardType: 1
+  baseDamage: 5

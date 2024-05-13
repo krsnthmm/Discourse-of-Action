@@ -11,15 +11,15 @@ public class PlayerData : CharacterData
         CHARACTER_FEM = 1
     }
 
-    public Character _selectedCharacter;
+    public Character selectedCharacter;
+    public RuntimeAnimatorController[] overworldAnimControllers;
+    public RuntimeAnimatorController[] dialogueAnimControllers;
 
-    public Character GetCharacter()
+    public void SetAnimatorController()
     {
-        return _selectedCharacter;
-    }
-
-    public void SetCharacter(Character character)
-    {
-        _selectedCharacter = character;
+        if (GameManager.instance.gameState == GameManager.GameState.GAME_OVERWORLD)
+            characterAnimController = overworldAnimControllers[(int)selectedCharacter];
+        else
+            characterAnimController = dialogueAnimControllers[(int)selectedCharacter];
     }
 }

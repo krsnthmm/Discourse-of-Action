@@ -13,9 +13,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_playerData == null)
-            _playerData = ScriptableObject.CreateInstance<PlayerData>();
-
         _playerRenderer.RenderCharacter(_playerData);
     }
 
@@ -23,14 +20,6 @@ public class PlayerController : MonoBehaviour
     {
         _horizontalAxis = command.HorizontalAxis;
         _verticalAxis = command.VerticalAxis;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // testing purposes
-        if (Input.GetKeyDown(KeyCode.Tab))
-            SwitchCharacter();
     }
 
     public void UpdateTransform()
@@ -42,18 +31,11 @@ public class PlayerController : MonoBehaviour
             _characterMovement.Move(_horizontalAxis, _verticalAxis);
             _playerRenderer.SetFloat("x", _horizontalAxis);
             _playerRenderer.SetFloat("y", _verticalAxis);
+
+           GameManager.instance.lastX = _horizontalAxis;
+           GameManager.instance.lastY = _verticalAxis;
         }
         
         _playerRenderer.SetBool("isWalking", isWalking);
-    }
-
-    void SwitchCharacter()
-    {
-        if ((int)_playerData.GetCharacter() == 1)
-            _playerData.SetCharacter(PlayerData.Character.CHARACTER_MASC);
-        else
-            _playerData.SetCharacter(PlayerData.Character.CHARACTER_FEM);
-
-        _playerRenderer.RenderCharacter(_playerData);
     }
 }

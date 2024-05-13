@@ -8,8 +8,12 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("[GAME COMPONENTS]")]
+    public PlayerData currentPlayerData;
     public PlayerController playerController;
     public InputController inputController;
+
+    [Header("[PLAYER VALUE STORAGE]")]
+    public float lastX, lastY; // for storing the last axis values/the player's last direction
 
     [Header("[GAME STATES]")]
     public GameState gameState;
@@ -23,11 +27,16 @@ public class GameManager : MonoBehaviour
 
     [Header("[SCENES]")]
     public string menuSceneName;
+    public string introSceneName;
     public string overworldSceneName;
     public string battleSceneName;
+    public string endSceneName;
 
-    // Start is called before the first frame update
-    void Start()
+    [Header("[ENEMY DATABASE]")]
+    public EnemyData[] enemies;
+    public EnemyData enemyToBattle;
+
+    void Awake()
     {
         if (instance == null)
         {
@@ -36,6 +45,8 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
+
+        currentPlayerData.SetAnimatorController();
     }
 
     public void LoadScene(string sceneName)
@@ -58,8 +69,14 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             gameState = gameState == GameState.GAME_OVERWORLD ? GameState.GAME_BATTLE : GameState.GAME_OVERWORLD;
-            OnStateChange();
+            ChangeState(gameState);
         }
+    }
+
+    public void ChangeState(GameState state)
+    {
+        gameState = state;
+        OnStateChange();
     }
 
     void OnStateChange()
@@ -68,9 +85,11 @@ public class GameManager : MonoBehaviour
         {
             case GameState.GAME_OVERWORLD:
                 LoadScene(overworldSceneName);
+                currentPlayerData.SetAnimatorController();
                 break;
             case GameState.GAME_BATTLE:
                 LoadScene(battleSceneName);
+                currentPlayerData.SetAnimatorController();
                 break;
             case GameState.GAME_DIALOGUE:
                 break;

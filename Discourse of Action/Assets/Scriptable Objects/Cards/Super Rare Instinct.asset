@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Super Rare Instinct
   m_EditorClassIdentifier: 
   cardTier: 2
-  cardType: 1
+  cardType: 3
+  baseDamage: 5
