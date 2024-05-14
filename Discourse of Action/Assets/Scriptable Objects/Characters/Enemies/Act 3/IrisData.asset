@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28a9ebbedcac5f4398906534e49d8f1, type: 3}
+  m_Name: IrisData
+  m_EditorClassIdentifier: 
+  characterName: IRIS
+  characterAnimController: {fileID: 0}
+  currHealth: 100
+  maxHealth: 100
+  enemyType: 0
+  keyPointDeck: {fileID: 11400000, guid: 5bce97fd9c4dcc741a9eabb092c32d87, type: 2}
+  irisAnimControllers:
+  - {fileID: 9100000, guid: 47967996e804ff54c8b2a896921e672d, type: 2}
+  - {fileID: 9100000, guid: b0dca3b94ddc90643ba8df0c352c9cdd, type: 2}

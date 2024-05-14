@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5402037a986282d4dbde96c084efeac3, type: 3}
-  m_Name: LassData
+  m_Script: {fileID: 11500000, guid: 6007f7c064d7b684eaaaf1fa6dea6668, type: 3}
+  m_Name: PrimroseDeck
   m_EditorClassIdentifier: 
-  characterName: Lass
-  characterAnimController: {fileID: 0}
-  currHealth: 100
-  enemyType: 0
+  deck: []

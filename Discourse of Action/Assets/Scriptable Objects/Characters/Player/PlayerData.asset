@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   characterName: Indigo
-  characterAnimController: {fileID: 9100000, guid: 26624029f50e90448a670fee1e65ae0d, type: 2}
+  characterAnimController: {fileID: 9100000, guid: 8d526135b5dacd44398ab4c63e237ef3, type: 2}
   currHealth: 100
   maxHealth: 100
-  selectedCharacter: 1
+  selectedCharacter: 0
   overworldAnimControllers:
   - {fileID: 9100000, guid: 3595ba9e1b9f8554a95cef2451c9b91d, type: 2}
   - {fileID: 9100000, guid: 8cfdaf6876bc6ed409bf219f8d896c1a, type: 2}

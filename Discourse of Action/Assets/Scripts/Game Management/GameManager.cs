@@ -8,12 +8,12 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("[GAME COMPONENTS]")]
-    public PlayerData currentPlayerData;
     public PlayerController playerController;
     public InputController inputController;
 
-    [Header("[PLAYER VALUE STORAGE]")]
-    public float lastX, lastY; // for storing the last axis values/the player's last direction
+    [Header("[CHARACTER DATA]")]
+    public PlayerData currentPlayerData;
+    public FinalBossData finalBossData;
 
     [Header("[GAME STATES]")]
     public GameState gameState;
@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         currentPlayerData.SetAnimatorController();
+        finalBossData.SetAnimatorController((int)currentPlayerData.selectedCharacter);
     }
 
     public void LoadScene(string sceneName)

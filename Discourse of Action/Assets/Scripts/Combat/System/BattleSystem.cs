@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public enum BattleState 
@@ -15,6 +16,7 @@ public enum BattleState
 
 public class BattleSystem : MonoBehaviour
 {
+    [Header("[UI ELEMENTS]")]
     [SerializeField] private BattleUnit _playerUnit;
     [SerializeField] private BattleUnit _enemyUnit;
 
@@ -23,6 +25,12 @@ public class BattleSystem : MonoBehaviour
 
     [SerializeField] private TMP_Text _turnText;
 
+    [Header("[BATTLE SYSTEM]")]
+    [SerializeField] private CardManager _cardManager;
+    [SerializeField] private KeyPointManager _keyPointManager;
+
+    private Card _selectedCard;
+    public KeyPoint _targetKeyPoint;
     private BattleState _state;
 
     void Start()
@@ -45,6 +53,9 @@ public class BattleSystem : MonoBehaviour
         _playerHUD.SetHUD();
         _enemyHUD.SetHUD();
 
+        for (int i = 0; i < _cardManager.availableHandSlots.Length; i++)
+            _cardManager.DrawCard();
+
         _state = BattleState.PLAYER_TURN;
         StartCoroutine(PlayerTurn());
     }
@@ -62,31 +73,34 @@ public class BattleSystem : MonoBehaviour
         {
             yield return new WaitForSeconds(2);
 
+            for (int i = 0; i < _cardManager.availableHandSlots.Length; i++)
+                _cardManager.DrawCard();
+
+            for (int i = 0; i < _cardManager.hand.Count; i++)
+                _cardManager.hand[i].GetComponent<Button>().interactable = true;
+            
             _turnText.text = "YOUR TURN";
         }    
     }
 
     IEnumerator PlayerAttack(int damage)
     {
-        _enemyUnit.characterData.TakeDamage(damage);
+        _enemyUnit.characterData.TakeDamage((int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType)));
         _enemyHUD.UpdateHealthValue();
         _state = BattleState.ENEMY_TURN;
+
+        for (int i = 0; i < _cardManager.hand.Count; i++)
+            _cardManager.hand[i].GetComponent<Button>().interactable = false;
 
         yield return new WaitForSeconds(1);
 
         if (_enemyUnit.characterData.currHealth <= 0)
         {
-            yield return new WaitForSeconds(1);
-
             _state = BattleState.WON;
             StartCoroutine(EndBattle());
         }
         else
-        {
-            yield return new WaitForSeconds(1);
-
             StartCoroutine(EnemyTurn());
-        }
     }
 
     IEnumerator EnemyTurn()
@@ -137,8 +151,42 @@ public class BattleSystem : MonoBehaviour
     public void OnCardSelect()
     {
         if (_state == BattleState.PLAYER_TURN)
-            StartCoroutine(PlayerAttack(10)); //placeholder value, change once card logic is done
+        {
+            _selectedCard = _cardManager.selectedCard;
+            StartCoroutine(PlayerAttack(_selectedCard.damage));
+        }
         else
             return;
+    }
+
+    float CheckTypeEffectiveness(ElementTypes card, ElementTypes keyPoint)
+    {
+        Dictionary<ElementTypes, Dictionary<ElementTypes, float>> multiplier = new()
+        {
+            { ElementTypes.TYPE_REASONING, new Dictionary<ElementTypes, float>() },
+            { ElementTypes.TYPE_EMOTION, new Dictionary<ElementTypes, float>() },
+            { ElementTypes.TYPE_INSTINCT, new Dictionary<ElementTypes, float>() },
+        };
+
+        // card trumps key point
+        multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_EMOTION] = 1.5f;
+        multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_INSTINCT] = 1.5f;
+        multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_REASONING] = 1.5f;
+
+        // card isn't very effective against key point
+        multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_INSTINCT] = 0.5f;
+        multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_REASONING] = 0.5f;
+        multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_EMOTION] = 0.5f;
+
+        foreach (ElementTypes offensive in multiplier.Keys)
+        {
+            foreach (ElementTypes defensive in multiplier.Keys)
+            {
+                if (!multiplier[offensive].ContainsKey(defensive))
+                    multiplier[offensive][defensive] = 1;
+            }
+        }
+
+        return multiplier[card][keyPoint];
     }
 }

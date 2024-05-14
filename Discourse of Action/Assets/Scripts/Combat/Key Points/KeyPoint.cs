@@ -6,4 +6,5 @@ using UnityEngine;
 public class KeyPoint : MonoBehaviour
 {
     public KeyPointData keyPointData;
+    public GameObject target;
 }

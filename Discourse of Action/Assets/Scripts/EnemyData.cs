@@ -9,8 +9,9 @@ public class EnemyData : CharacterData
     {
         ENEMY_NORMAL,
         ENEMY_BOSS_ASTER,
-        ENEMY_BOSS_PLANT
+        ENEMY_BOSS_PRIMROSE
     }
 
     public EnemyType enemyType;
+    public KeyPointDeck keyPointDeck;
 }
