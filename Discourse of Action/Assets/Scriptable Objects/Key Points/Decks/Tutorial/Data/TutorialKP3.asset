@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5788d2b455a5342488aebddd397eb2c4, type: 3}
-  m_Name: Instinct Test
+  m_Name: TutorialKP3
   m_EditorClassIdentifier: 
-  keyPointType: 3
-  keyPointText: Instinct Key Point.
+  keyPointType: 2
+  keyPointText: This is an EMOTION key point. It is weak to REASONING.

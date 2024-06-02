@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Act3LadData
   m_EditorClassIdentifier: 
   characterName: Lad
-  characterAnimController: {fileID: 0}
+  characterAnimController: {fileID: 9100000, guid: 2981bac7ea78a164f8b8901a439e9e1d, type: 2}
   currHealth: 100
   maxHealth: 100
   enemyType: 0

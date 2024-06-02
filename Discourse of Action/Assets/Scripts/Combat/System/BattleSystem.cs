@@ -35,9 +35,14 @@ public class BattleSystem : MonoBehaviour
 
     void Start()
     {
+        // set up the battle scene
         _state = BattleState.START;
+
         _playerUnit.characterData = GameManager.instance.currentPlayerData;
         _enemyUnit.characterData = GameManager.instance.enemyToBattle;
+
+        _keyPointManager.deck = GameManager.instance.enemyToBattle.keyPointDeck;
+
         SetupBattle();
     }
 
@@ -47,14 +52,21 @@ public class BattleSystem : MonoBehaviour
         _playerUnit.characterData.currHealth = _playerUnit.characterData.maxHealth;
         _enemyUnit.characterData.currHealth = _enemyUnit.characterData.maxHealth;
 
+        // render character sprites
         _playerUnit.characterRenderer.RenderCharacter(_playerUnit.characterData);
         _enemyUnit.characterRenderer.RenderCharacter(_enemyUnit.characterData);
 
+        // display name and health
         _playerHUD.SetHUD();
         _enemyHUD.SetHUD();
 
+        _keyPointManager.SetTarget();
+
         for (int i = 0; i < _cardManager.availableHandSlots.Length; i++)
             _cardManager.DrawCard();
+
+        for (int i = 0; i < _keyPointManager.availableDisplaySlots.Length; i++)
+            _keyPointManager.PutOnDisplay();
 
         _state = BattleState.PLAYER_TURN;
         StartCoroutine(PlayerTurn());
@@ -85,8 +97,12 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack(int damage)
     {
+        _targetKeyPoint = _keyPointManager.selectedKeyPoint;
+        _keyPointManager.RemoveFromDisplay(_targetKeyPoint);
+
         _enemyUnit.characterData.TakeDamage((int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType)));
         _enemyHUD.UpdateHealthValue();
+
         _state = BattleState.ENEMY_TURN;
 
         for (int i = 0; i < _cardManager.hand.Count; i++)
@@ -106,6 +122,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator EnemyTurn()
     {
         _turnText.text = "ENEMY TURN";
+        _keyPointManager.PutOnDisplay();
 
         yield return new WaitForSeconds(1);
 
@@ -120,9 +137,11 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EndBattle()
     {
+        _keyPointManager.ClearDisplay();
+
         if (_state == BattleState.WON)
         {
-            _turnText.text = "THAT IS ALL!";
+            _turnText.text = "TRIUMPH!";
 
             yield return new WaitForSeconds(2);
 
@@ -136,16 +155,6 @@ public class BattleSystem : MonoBehaviour
 
             GameManager.instance.ChangeState(GameManager.GameState.GAME_OVERWORLD);
         }
-    }
-
-    void OnKeyPointSelect()
-    {
-        if (_state == BattleState.PLAYER_TURN)
-        {
-            // TODO: key point selection logic
-        }
-        else
-            return;
     }
 
     public void OnCardSelect()
@@ -163,6 +172,7 @@ public class BattleSystem : MonoBehaviour
     {
         Dictionary<ElementTypes, Dictionary<ElementTypes, float>> multiplier = new()
         {
+            { ElementTypes.TYPE_NEUTRAL, new Dictionary<ElementTypes, float>() },
             { ElementTypes.TYPE_REASONING, new Dictionary<ElementTypes, float>() },
             { ElementTypes.TYPE_EMOTION, new Dictionary<ElementTypes, float>() },
             { ElementTypes.TYPE_INSTINCT, new Dictionary<ElementTypes, float>() },

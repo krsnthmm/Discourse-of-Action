@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Aster
   characterAnimController: {fileID: 9100000, guid: be11b357ea6a192439993487dfd3a0ad, type: 2}
-  currHealth: 100
-  maxHealth: 100
+  currHealth: 50
+  maxHealth: 50
   enemyType: 1
   keyPointDeck: {fileID: 11400000, guid: 14c38d6fa50dcf54cadb6039dc6e36cc, type: 2}

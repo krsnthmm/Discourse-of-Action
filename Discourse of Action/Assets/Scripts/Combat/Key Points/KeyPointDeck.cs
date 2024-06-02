@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu]
 public class KeyPointDeck : ScriptableObject
 {
-    public List<KeyPoint> deck = new();
+    public List<KeyPointData> listOfData = new();
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PrimroseData
   m_EditorClassIdentifier: 
   characterName: Primrose
-  characterAnimController: {fileID: 0}
+  characterAnimController: {fileID: 9100000, guid: 31b995b0ced30a2488f4e2a049e0f8dc, type: 2}
   currHealth: 100
   maxHealth: 100
   enemyType: 2

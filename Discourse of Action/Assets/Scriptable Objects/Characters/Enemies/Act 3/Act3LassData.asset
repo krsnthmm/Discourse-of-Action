@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Act3LassData
   m_EditorClassIdentifier: 
   characterName: Lass
-  characterAnimController: {fileID: 0}
+  characterAnimController: {fileID: 9100000, guid: 0b8a2ea869eb5b342a59534dc4b4074a, type: 2}
   currHealth: 100
   maxHealth: 100
   enemyType: 0

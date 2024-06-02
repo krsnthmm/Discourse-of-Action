@@ -11,7 +11,6 @@ public class KeyPointDisplay : MonoBehaviour
     [Header("[PROPERTIES]")]
     [SerializeField] private TMP_Text _keyPointText;
     [SerializeField] private Image _typeImage;
-    [SerializeField] private Image _targetImage;
 
     [Header("[SPRITE ASSETS]")]
     [SerializeField] private Sprite _neutralTypeBubble;
@@ -19,7 +18,7 @@ public class KeyPointDisplay : MonoBehaviour
     [SerializeField] private Sprite _emotionTypeBubble;
     [SerializeField] private Sprite _instinctTypeBubble;
 
-    private void Awake()
+    public void OnEnable()
     {
         _keyPoint = GetComponent<KeyPoint>();
         SetKeyPointDisplay();
@@ -30,7 +29,6 @@ public class KeyPointDisplay : MonoBehaviour
         SetKeyPointText();
         SetTypeIcon();
     }
-
 
     private void SetKeyPointText()
     {

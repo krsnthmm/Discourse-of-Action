@@ -19,10 +19,16 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public enum GameState
     {
+        GAME_MENU,
+        GAME_INTRO,
         GAME_OVERWORLD,
         GAME_DIALOGUE,
         GAME_BATTLE,
-        GAME_CUTSCENE
+        GAME_RECALL,
+        GAME_CUTSCENE,
+        GAME_ENDING,
+        GAME_WIN,
+        GAME_LOSE
     }
 
     [Header("[SCENES]")]
@@ -30,6 +36,7 @@ public class GameManager : MonoBehaviour
     public string introSceneName;
     public string overworldSceneName;
     public string battleSceneName;
+    public string memoryRecallSceneName;
     public string endSceneName;
 
     [Header("[ENEMY DATABASE]")]
@@ -72,6 +79,12 @@ public class GameManager : MonoBehaviour
             gameState = gameState == GameState.GAME_OVERWORLD ? GameState.GAME_BATTLE : GameState.GAME_OVERWORLD;
             ChangeState(gameState);
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            gameState = GameState.GAME_RECALL;
+            ChangeState(gameState);
+        }
     }
 
     public void ChangeState(GameState state)
@@ -92,7 +105,11 @@ public class GameManager : MonoBehaviour
                 LoadScene(battleSceneName);
                 currentPlayerData.SetAnimatorController();
                 break;
+            case GameState.GAME_RECALL:
+                LoadScene(memoryRecallSceneName);
+                break;
             case GameState.GAME_DIALOGUE:
+                // TODO: dialogue system implementation
                 break;
         }
     }

@@ -3352,7 +3352,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3590,7 +3590,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 09eedf0342cc35743b16e6db2b3d8347, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3804,7 +3804,7 @@ MonoBehaviour:
   _enemyHUD: {fileID: 1047230070}
   _turnText: {fileID: 1179786445}
   _cardManager: {fileID: 1353262954}
-  _keyPointManager: {fileID: 0}
+  _keyPointManager: {fileID: 1353262955}
   _targetKeyPoint: {fileID: 0}
 --- !u!114 &1353262954
 MonoBehaviour:
@@ -3872,7 +3872,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aabb2390a675ae54a90a1eb5ed2b712d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hand: []
+  onDisplay:
+  - {fileID: 2017439222}
+  - {fileID: 5057663927491231181}
+  - {fileID: 1878725988}
+  deck: {fileID: 0}
+  availableDisplaySlots: 010101
+  selectedKeyPoint: {fileID: 0}
 --- !u!1 &1415487974
 GameObject:
   m_ObjectHideFlags: 0
@@ -5509,6 +5515,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Key Point
       objectReference: {fileID: 0}
+    - target: {fileID: 5057663927113911848, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5057663927113911849, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5593,10 +5603,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7155994639921393832, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
-      propertyPath: keyPointData
-      value: 
-      objectReference: {fileID: 11400000, guid: edb9b2c1b8a7485439a76bc160a808c8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
 --- !u!224 &1878725987 stripped
@@ -5604,6 +5610,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5057663927113911849, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
   m_PrefabInstance: {fileID: 1878725986}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1878725988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7155994639921393832, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
+  m_PrefabInstance: {fileID: 1878725986}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05cdb6c60c92a814588b9933053ec3ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1880277604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6234,6 +6251,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Key Point
       objectReference: {fileID: 0}
+    - target: {fileID: 5057663927113911848, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5057663927113911849, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6318,10 +6339,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7155994639921393832, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
-      propertyPath: keyPointData
-      value: 
-      objectReference: {fileID: 11400000, guid: e7e6db742823f0b478914d61ca705b51, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
 --- !u!224 &2017439221 stripped
@@ -6329,6 +6346,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5057663927113911849, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
   m_PrefabInstance: {fileID: 2017439220}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2017439222 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7155994639921393832, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
+  m_PrefabInstance: {fileID: 2017439220}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05cdb6c60c92a814588b9933053ec3ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2049706656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6717,7 +6745,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c8cd2a52da2e7f2499a1646cc0fd37a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6859,6 +6887,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Key Point
       objectReference: {fileID: 0}
+    - target: {fileID: 5057663927113911848, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5057663927113911849, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6943,9 +6975,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7155994639921393832, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
-      propertyPath: keyPointData
-      value: 
-      objectReference: {fileID: 11400000, guid: 2526aa54fb211d84cb4d2430588289bd, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
+--- !u!114 &5057663927491231181 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7155994639921393832, guid: 5d2edfe2692abec48b0dc0fb1efbca65, type: 3}
+  m_PrefabInstance: {fileID: 5057663927491231180}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05cdb6c60c92a814588b9933053ec3ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

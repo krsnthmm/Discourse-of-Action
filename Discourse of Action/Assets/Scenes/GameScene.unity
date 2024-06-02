@@ -499,17 +499,25 @@ MonoBehaviour:
   inputController: {fileID: 285805694}
   currentPlayerData: {fileID: 11400000, guid: cb3037b7c4695094c9d5c8f36fdd0fc1, type: 2}
   finalBossData: {fileID: 11400000, guid: ab6089423c5689e4c92a4592f9d1c9ca, type: 2}
-  gameState: 0
+  gameState: 2
   menuSceneName: MenuScene
-  introSceneName: 
+  introSceneName: IntroScene
   overworldSceneName: GameScene
   battleSceneName: CombatScene
-  endSceneName: 
+  memoryRecallSceneName: MemoryRecallScene
+  endSceneName: EndingScene
   enemies:
   - {fileID: 11400000, guid: c01fc9556d8a4d64eade1bc802843671, type: 2}
+  - {fileID: 11400000, guid: 88b3e7096e84cf240824b46aec32ec5c, type: 2}
+  - {fileID: 11400000, guid: a9eccdc6a22c5a741aa8ae767ce67adc, type: 2}
   - {fileID: 11400000, guid: 47d71ee73886c9f4cb46f75c2bfa2c2a, type: 2}
+  - {fileID: 11400000, guid: d807e8725a8ed44448671a9a23c0c75f, type: 2}
+  - {fileID: 11400000, guid: b52e73126c2eae9479928de8c1c02454, type: 2}
+  - {fileID: 11400000, guid: c996d1be1e3c4c945a72d4f54d3b216b, type: 2}
+  - {fileID: 11400000, guid: c06bc71caeb4ec24e83014b897aec3a3, type: 2}
+  - {fileID: 11400000, guid: d6fecec48c9043a47accf486ba168814, type: 2}
   - {fileID: 11400000, guid: ab6089423c5689e4c92a4592f9d1c9ca, type: 2}
-  enemyToBattle: {fileID: 11400000, guid: 47d71ee73886c9f4cb46f75c2bfa2c2a, type: 2}
+  enemyToBattle: {fileID: 11400000, guid: c01fc9556d8a4d64eade1bc802843671, type: 2}
 --- !u!4 &447249150
 Transform:
   m_ObjectHideFlags: 0
