@@ -141,7 +141,7 @@ public class BattleSystem : MonoBehaviour
 
         if (_state == BattleState.WON)
         {
-            _turnText.text = "TRIUMPH!";
+            _turnText.text = "VICTORY!";
 
             yield return new WaitForSeconds(2);
 

@@ -15,6 +15,6 @@ MonoBehaviour:
   characterName: Lad
   characterAnimController: {fileID: 9100000, guid: 2981bac7ea78a164f8b8901a439e9e1d, type: 2}
   currHealth: 30
-  maxHealth: 30
+  maxHealth: 100
   enemyType: 0
   keyPointDeck: {fileID: 11400000, guid: 7998379007f04a04486db5191bb038d2, type: 2}

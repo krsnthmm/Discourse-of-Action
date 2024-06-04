@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Plant
   characterAnimController: {fileID: 9100000, guid: 3c8f53d97b25cd747ad3e22e6b1751c5, type: 2}
-  currHealth: 25
-  maxHealth: 25
+  currHealth: 0
+  maxHealth: 75
   enemyType: 0
   keyPointDeck: {fileID: 11400000, guid: 768352e45c306434d88333f05e478f6f, type: 2}

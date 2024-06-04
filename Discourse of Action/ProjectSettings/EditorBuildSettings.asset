@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MenuScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/IntroScene.unity
     guid: 4699de215e9dbbf4b8938bc30c1c686a
   - enabled: 1
@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CombatScene.unity
     guid: 7c667be2a563fc64e84d2c3dd06553d1
+  - enabled: 1
+    path: Assets/Scenes/MemoryRecallScene.unity
+    guid: 2459e529b4cfe6245bb43c5197124471
   - enabled: 1
     path: Assets/Scenes/EndingScene.unity
     guid: 73c32f9629265984a9f6c6ce8bf86da4

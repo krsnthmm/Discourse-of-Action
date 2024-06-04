@@ -15,6 +15,6 @@ MonoBehaviour:
   characterName: Primrose
   characterAnimController: {fileID: 9100000, guid: 31b995b0ced30a2488f4e2a049e0f8dc, type: 2}
   currHealth: 100
-  maxHealth: 100
+  maxHealth: 150
   enemyType: 2
   keyPointDeck: {fileID: 0}

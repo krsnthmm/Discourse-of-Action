@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6007f7c064d7b684eaaaf1fa6dea6668, type: 3}
+  m_Name: TutorialDeck
+  m_EditorClassIdentifier: 
+  listOfData:
+  - {fileID: 11400000, guid: 6900eed8bb6eafe46ade9a1fa43d3371, type: 2}
+  - {fileID: 11400000, guid: d58cbe45e98b988478835cf94bc353bc, type: 2}
+  - {fileID: 11400000, guid: fee7ab7ae0c0a7c4d8c40e7ad2100eb0, type: 2}
+  - {fileID: 11400000, guid: 876fad2d4aeb8b24dba67d423b73e8b2, type: 2}

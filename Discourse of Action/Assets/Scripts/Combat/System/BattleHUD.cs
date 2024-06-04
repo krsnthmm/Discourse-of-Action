@@ -18,8 +18,8 @@ public class BattleHUD : MonoBehaviour
     {
         _nameText.text = "" + _battleUnit.characterData.characterName;
         _hpText.text = "HP: " + _battleUnit.characterData.currHealth + " / " + _battleUnit.characterData.maxHealth;
-        _hpSlider.value = _battleUnit.characterData.currHealth;
         _hpSlider.maxValue = _battleUnit.characterData.maxHealth;
+        _hpSlider.value = _battleUnit.characterData.currHealth;
     }
 
     public void UpdateHealthValue()

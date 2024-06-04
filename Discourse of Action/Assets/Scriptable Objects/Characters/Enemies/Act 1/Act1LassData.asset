@@ -15,6 +15,6 @@ MonoBehaviour:
   characterName: Lass
   characterAnimController: {fileID: 9100000, guid: 0b8a2ea869eb5b342a59534dc4b4074a, type: 2}
   currHealth: 30
-  maxHealth: 30
+  maxHealth: 100
   enemyType: 0
   keyPointDeck: {fileID: 11400000, guid: 7998379007f04a04486db5191bb038d2, type: 2}
