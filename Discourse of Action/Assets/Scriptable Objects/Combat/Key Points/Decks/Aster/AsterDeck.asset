@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6007f7c064d7b684eaaaf1fa6dea6668, type: 3}
   m_Name: AsterDeck
   m_EditorClassIdentifier: 
-  deck: []
+  listOfData:
+  - {fileID: 11400000, guid: c390471214772c74a8903552234757d4, type: 2}
+  - {fileID: 11400000, guid: 2e0f8ccfefb813540b85cb0253c3f8cb, type: 2}
+  - {fileID: 11400000, guid: b275efeb0da336245803cec870ea82f2, type: 2}
+  - {fileID: 11400000, guid: 820c72c45afd58f45ac1575dbf87370f, type: 2}
+  - {fileID: 11400000, guid: 34659f1555f12f54f91b97b6f69499cb, type: 2}

@@ -18,6 +18,10 @@ public class MemoryRecallSystem : MonoBehaviour
     [SerializeField] private RecallRevelationData[] _recallRevelationsData;
     [SerializeField] private RecallConclusionData _recallConclusionData;
 
+    [Header("REVELATION")]
+    private int _revelationIdx;
+
+    [Header("[CONCLUSION]")]
     private int _startIdx, _midIdx, _endIdx;
     private string playerConclusion;
 
@@ -25,7 +29,7 @@ public class MemoryRecallSystem : MonoBehaviour
     void Start()
     {
         _recallUI = GetComponent<MemoryRecallUI>();
-        StartCoroutine(_recallUI.ToggleUI(RecallStates.RECALL_REVELATION));
+        SetUI(RecallStates.RECALL_REVELATION);
     }
 
     // Update is called once per frame
@@ -33,10 +37,13 @@ public class MemoryRecallSystem : MonoBehaviour
     {
         // for testing purposes
         if (Input.GetKey(KeyCode.Alpha1))
-        {
-            StartCoroutine(_recallUI.ToggleUI(RecallStates.RECALL_CONCLUSION));
-            SetText(RecallStates.RECALL_CONCLUSION);
-        }
+            SetUI(RecallStates.RECALL_CONCLUSION);
+    }
+
+    private void SetUI(RecallStates state)
+    {
+        StartCoroutine(_recallUI.ToggleUI(state));
+        SetText(state);
     }
 
     public void SetText(RecallStates state)
@@ -44,21 +51,39 @@ public class MemoryRecallSystem : MonoBehaviour
         switch (state)
         {
             case RecallStates.RECALL_REVELATION:
+                _recallUI.memoryPieceTextBox.text = _recallRevelationsData[_revelationIdx].memoryPieceText;
+                for (int i = 0; i < _recallUI.inferenceTexts.Length; i++)
+                    _recallUI.inferenceTexts[i].text = _recallRevelationsData[_revelationIdx].inferenceTexts[i];
                 break;
             case RecallStates.RECALL_CONCLUSION:
-                _recallUI.conclusionTexts[0].text = _recallConclusionData.conclusionStartOptions[0];
-                _recallUI.conclusionTexts[1].text = _recallConclusionData.conclusionMiddleOptions[0];
-                _recallUI.conclusionTexts[2].text = _recallConclusionData.conclusionEndOptions[0];
+                _recallUI.conclusionTexts[0].text = _recallConclusionData.conclusionStartOptions[Random.Range(0, _recallConclusionData.conclusionStartOptions.Length)];
+                _recallUI.conclusionTexts[1].text = _recallConclusionData.conclusionMiddleOptions[Random.Range(0, _recallConclusionData.conclusionMiddleOptions.Length)];
+                _recallUI.conclusionTexts[2].text = _recallConclusionData.conclusionEndOptions[Random.Range(0, _recallConclusionData.conclusionEndOptions.Length)];
+                break;
+            case RecallStates.RECALL_COMPLETE:
+                // there's nothing to set here
                 break;
         }
     }
 
+    #region REVELATION PHASE
+    public void OnDotClick()
+    {
+        // TODO: line renderer..... waaaahhhh :((
+    }
+    #endregion
+
+    #region CONCLUSION PHASE
     public void OnConfirmButton()
     {
         if (CheckConclusion())
-            StartCoroutine(_recallUI.ToggleUI(RecallStates.RECALL_COMPLETE));
+            SetUI(RecallStates.RECALL_COMPLETE);
         else
+        {
+            // instead of using SetUI, which randomises the text, we want to keep the text the same
+            // hence we'll use _recallUI.ToggleUI instead.
             StartCoroutine(_recallUI.ToggleUI(RecallStates.RECALL_CONCLUSION));
+        }
     }
 
     public void OnSelectUp(int index)
@@ -140,4 +165,5 @@ public class MemoryRecallSystem : MonoBehaviour
         else
             return false;
     }
+    #endregion
 }

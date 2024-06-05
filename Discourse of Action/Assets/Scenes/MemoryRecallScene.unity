@@ -372,7 +372,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1728,7 +1728,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2099,7 +2099,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd22e21b5e654ff40b7b8be82c2eebd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _recallRevelationsData: []
+  _recallRevelationsData:
+  - {fileID: 11400000, guid: 51ed0022ba9122c47b3a1ba0053a4c2d, type: 2}
   _recallConclusionData: {fileID: 11400000, guid: cfafd8a04775c37448ddae4efc7bc16a, type: 2}
 --- !u!4 &1374700351
 Transform:
@@ -2293,7 +2294,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -3119,7 +3120,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 16
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

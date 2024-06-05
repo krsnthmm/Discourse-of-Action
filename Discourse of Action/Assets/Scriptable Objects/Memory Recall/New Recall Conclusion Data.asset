@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: New Recall Conclusion Data
   m_EditorClassIdentifier: 
   conclusionStartOptions:
-  - Aster
-  - right
+  - Aster was
+  - I was
   conclusionMiddleOptions:
-  - right
-  - left
+  - trying to destroy what
+  - trying to salvage what
+  - running away from what
   conclusionEndOptions:
-  - right
-  - up
-  correctConclusion: right right right
+  - we had.
+  - we never had.
+  correctConclusion: Aster was trying to salvage what we never had.

@@ -517,7 +517,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c06bc71caeb4ec24e83014b897aec3a3, type: 2}
   - {fileID: 11400000, guid: d6fecec48c9043a47accf486ba168814, type: 2}
   - {fileID: 11400000, guid: ab6089423c5689e4c92a4592f9d1c9ca, type: 2}
-  enemyToBattle: {fileID: 11400000, guid: ab6089423c5689e4c92a4592f9d1c9ca, type: 2}
+  enemyToBattle: {fileID: 11400000, guid: c01fc9556d8a4d64eade1bc802843671, type: 2}
 --- !u!4 &447249150
 Transform:
   m_ObjectHideFlags: 0

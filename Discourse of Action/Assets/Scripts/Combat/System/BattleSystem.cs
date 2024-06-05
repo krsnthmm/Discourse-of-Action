@@ -170,6 +170,7 @@ public class BattleSystem : MonoBehaviour
 
     float CheckTypeEffectiveness(ElementTypes card, ElementTypes keyPoint)
     {
+        // define the types of "statements" present in combat
         Dictionary<ElementTypes, Dictionary<ElementTypes, float>> multiplier = new()
         {
             { ElementTypes.TYPE_NEUTRAL, new Dictionary<ElementTypes, float>() },
@@ -178,12 +179,12 @@ public class BattleSystem : MonoBehaviour
             { ElementTypes.TYPE_INSTINCT, new Dictionary<ElementTypes, float>() },
         };
 
-        // card trumps key point
+        // if card trumps key point, damage dealt is 1.5x normal damage
         multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_EMOTION] = 1.5f;
         multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_INSTINCT] = 1.5f;
         multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_REASONING] = 1.5f;
 
-        // card isn't very effective against key point
+        // if card isn't very effective against key point, damage dealt is 0.5x normal damage
         multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_INSTINCT] = 0.5f;
         multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_REASONING] = 0.5f;
         multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_EMOTION] = 0.5f;
@@ -192,6 +193,7 @@ public class BattleSystem : MonoBehaviour
         {
             foreach (ElementTypes defensive in multiplier.Keys)
             {
+                // normal effectiveness
                 if (!multiplier[offensive].ContainsKey(defensive))
                     multiplier[offensive][defensive] = 1;
             }
