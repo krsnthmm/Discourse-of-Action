@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private float _horizontalAxis, _verticalAxis;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable ()
     {
         _playerRenderer.RenderCharacter(_playerData);
     }
@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
             _playerRenderer.SetFloat("x", _horizontalAxis);
             _playerRenderer.SetFloat("y", _verticalAxis);
         }
+        else
+            _characterMovement.StopMoving();
         
         _playerRenderer.SetBool("isWalking", isWalking);
     }

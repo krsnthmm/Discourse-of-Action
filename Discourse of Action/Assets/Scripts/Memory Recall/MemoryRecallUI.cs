@@ -52,7 +52,7 @@ public class MemoryRecallUI : MonoBehaviour
 
                 yield return new WaitForSeconds(2);
 
-                GameManager.instance.ChangeState(GameManager.GameState.GAME_OVERWORLD);
+                GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
                 break;
         }
     }

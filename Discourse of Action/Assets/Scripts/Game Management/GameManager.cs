@@ -3,11 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameState
+{
+    GAME_MENU,
+    GAME_INTRO,
+    GAME_OVERWORLD,
+    GAME_DIALOGUE,
+    GAME_BATTLE,
+    GAME_RECALL,
+    GAME_CUTSCENE,
+    GAME_ENDING,
+    GAME_WIN,
+    GAME_LOSE
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     [Header("[GAME COMPONENTS]")]
+    public GameObject menuCanvas;
     public PlayerController playerController;
     public InputController inputController;
 
@@ -17,19 +32,6 @@ public class GameManager : MonoBehaviour
 
     [Header("[GAME STATES]")]
     public GameState gameState;
-    public enum GameState
-    {
-        GAME_MENU,
-        GAME_INTRO,
-        GAME_OVERWORLD,
-        GAME_DIALOGUE,
-        GAME_BATTLE,
-        GAME_RECALL,
-        GAME_CUTSCENE,
-        GAME_ENDING,
-        GAME_WIN,
-        GAME_LOSE
-    }
 
     [Header("[SCENES]")]
     public string menuSceneName;
@@ -52,9 +54,6 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
-
-        currentPlayerData.SetAnimatorController();
-        finalBossData.SetAnimatorController((int)currentPlayerData.selectedCharacter);
     }
 
     public void LoadScene(string sceneName)
@@ -71,21 +70,22 @@ public class GameManager : MonoBehaviour
                 playerController.ReadMovementAxisCommand(movementAxisCommand);
 
             playerController.UpdateTransform();
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                gameState = GameState.GAME_RECALL;
+                ChangeState(gameState);
+            }
         }
 
-        // testing purposes
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            gameState = gameState == GameState.GAME_OVERWORLD ? GameState.GAME_BATTLE : GameState.GAME_OVERWORLD;
-            ChangeState(gameState);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            gameState = GameState.GAME_RECALL;
+            gameState = gameState == GameState.GAME_MENU ? GameState.GAME_OVERWORLD : GameState.GAME_MENU;
             ChangeState(gameState);
         }
     }
+
+    #region GENERAL
 
     public void ChangeState(GameState state)
     {
@@ -97,12 +97,28 @@ public class GameManager : MonoBehaviour
     {
         switch (gameState)
         {
+            case GameState.GAME_MENU:
+                LoadScene(menuSceneName);
+                menuCanvas.SetActive(true);
+                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.menuBGM);
+
+                playerController.gameObject.SetActive(false);
+                break;
+            case GameState.GAME_INTRO:
+                LoadScene(introSceneName);
+                menuCanvas.SetActive(false);
+                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.gameBGM);
+                break;
             case GameState.GAME_OVERWORLD:
                 LoadScene(overworldSceneName);
-                currentPlayerData.SetAnimatorController();
+                menuCanvas.SetActive(false);
+                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.gameBGM);
+
+                playerController.gameObject.SetActive(true);
                 break;
             case GameState.GAME_BATTLE:
                 LoadScene(battleSceneName);
+                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.combatBGM);
                 currentPlayerData.SetAnimatorController();
                 break;
             case GameState.GAME_RECALL:
@@ -119,4 +135,53 @@ public class GameManager : MonoBehaviour
         if (instance != null)
             Destroy(this);
     }
+
+    #endregion
+
+    #region MAIN MENU
+
+    public void OnPlayButtonClick()
+    {
+        ChangeState(GameState.GAME_INTRO);
+    }
+
+    public void OnControlsButtonClick()
+    {
+        Debug.Log("Controls");
+    }
+
+    public void OnSettingsButtonClick()
+    {
+        Debug.Log("Settings");
+    }
+
+    public void OnBackButtonClick()
+    {
+        Debug.Log("Back to Main");
+    }
+
+    public void OnQuitButtonClick()
+    {
+        Application.Quit();
+    }
+
+    #endregion
+
+    #region INTRO
+
+    public void SelectCharacter(int index) // 0 = masc, 1 = fem
+    {
+        currentPlayerData.selectedCharacter = (PlayerData.Character)index;
+
+        currentPlayerData.SetAnimatorController();
+        finalBossData.SetAnimatorController((int)currentPlayerData.selectedCharacter);
+    }
+
+    public void SetName(string name)
+    {
+        currentPlayerData.characterName = name;
+        ChangeState(GameState.GAME_OVERWORLD);
+    }
+
+    #endregion
 }

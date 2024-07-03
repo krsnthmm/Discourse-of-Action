@@ -7,36 +7,35 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     [Header("[AUDIO SOURCES]")]
-    [SerializeField] private AudioSource _BGMSource;
-    [SerializeField] private AudioSource _SFXSource;
-    [SerializeField] private AudioSource _voiceSource;
+    public AudioSource BGMSource;
+    public AudioSource SFXSource;
+    public AudioSource voiceSource;
 
     [Header("[BACKGROUND MUSIC]")]
-    [SerializeField] private AudioClip _menuBGM;
-    [SerializeField] private AudioClip _gameBGM;
-    [SerializeField] private AudioClip _combatBGM;
-    [SerializeField] private AudioClip _bossBGM;
+    public AudioClip menuBGM;
+    public AudioClip gameBGM;
+    public AudioClip combatBGM;
+    public AudioClip bossBGM;
 
     [Header("[SOUND EFFECTS]")]
-    [SerializeField] private AudioClip _buttonSFX;
+    public AudioClip buttonSFX;
 
     [Header("[VOICE]")]
-    [SerializeField] private AudioClip _femIntro;
-    [SerializeField] private AudioClip _mascIntro;
-    [SerializeField] private AudioClip _femCombatEnd;
-    [SerializeField] private AudioClip _mascCombatEnd;
+    public AudioClip femIntro;
+    public AudioClip mascIntro;
+    public AudioClip femCombatEnd;
+    public AudioClip mascCombatEnd;
     
     void Start()
     {
         if (instance == null)
         {
             instance = this;
+            PlayClip(BGMSource, menuBGM); // this should only work for the main menu
             DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
-
-        PlayClip(_BGMSource, _menuBGM);
     }
 
     public void PlayClip(AudioSource audioSrc, AudioClip clip)

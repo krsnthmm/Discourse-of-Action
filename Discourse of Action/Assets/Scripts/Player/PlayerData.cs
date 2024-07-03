@@ -17,9 +17,9 @@ public class PlayerData : CharacterData
 
     public void SetAnimatorController()
     {
-        if (GameManager.instance.gameState == GameManager.GameState.GAME_OVERWORLD)
-            characterAnimController = overworldAnimControllers[(int)selectedCharacter];
-        else
+        if (GameManager.instance.gameState == GameState.GAME_DIALOGUE || GameManager.instance.gameState == GameState.GAME_BATTLE)
             characterAnimController = dialogueAnimControllers[(int)selectedCharacter];
+        else
+            characterAnimController = overworldAnimControllers[(int)selectedCharacter];
     }
 }

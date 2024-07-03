@@ -145,7 +145,7 @@ public class BattleSystem : MonoBehaviour
 
             yield return new WaitForSeconds(2);
 
-            GameManager.instance.ChangeState(GameManager.GameState.GAME_OVERWORLD);
+            GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
         }
         else if (_state == BattleState.LOST)
         {
@@ -153,7 +153,7 @@ public class BattleSystem : MonoBehaviour
 
             yield return new WaitForSeconds(2);
 
-            GameManager.instance.ChangeState(GameManager.GameState.GAME_OVERWORLD);
+            GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
         }
     }
 

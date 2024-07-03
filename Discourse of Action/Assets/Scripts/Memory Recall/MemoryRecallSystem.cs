@@ -15,10 +15,13 @@ public class MemoryRecallSystem : MonoBehaviour
 {
     private MemoryRecallUI _recallUI;
 
+    [SerializeField] private LineController _lineController;
+
     [SerializeField] private RecallRevelationData[] _recallRevelationsData;
     [SerializeField] private RecallConclusionData _recallConclusionData;
 
     [Header("REVELATION")]
+    private Transform _mouseTransform;
     private int _revelationIdx;
 
     [Header("[CONCLUSION]")]
@@ -38,6 +41,9 @@ public class MemoryRecallSystem : MonoBehaviour
         // for testing purposes
         if (Input.GetKey(KeyCode.Alpha1))
             SetUI(RecallStates.RECALL_CONCLUSION);
+
+        if (_lineController.isLineStarted)
+            _lineController.UpdateLine(GetWorldPoint(Input.mousePosition));
     }
 
     private void SetUI(RecallStates state)
@@ -60,16 +66,21 @@ public class MemoryRecallSystem : MonoBehaviour
                 _recallUI.conclusionTexts[1].text = _recallConclusionData.conclusionMiddleOptions[Random.Range(0, _recallConclusionData.conclusionMiddleOptions.Length)];
                 _recallUI.conclusionTexts[2].text = _recallConclusionData.conclusionEndOptions[Random.Range(0, _recallConclusionData.conclusionEndOptions.Length)];
                 break;
-            case RecallStates.RECALL_COMPLETE:
-                // there's nothing to set here
-                break;
         }
     }
 
     #region REVELATION PHASE
     public void OnDotClick()
     {
-        // TODO: line renderer..... waaaahhhh :((
+        if (_lineController.isLineStarted)
+            return;
+        else
+            _lineController.SetUpLine(GetWorldPoint(Input.mousePosition), GetWorldPoint(Input.mousePosition));
+    }
+
+    Vector3 GetWorldPoint(Vector3 mousePos)
+    {
+        return Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.nearClipPlane));
     }
     #endregion
 
