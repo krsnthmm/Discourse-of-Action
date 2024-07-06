@@ -14,6 +14,7 @@ public enum RecallStates
 public class MemoryRecallSystem : MonoBehaviour
 {
     private MemoryRecallUI _recallUI;
+    [SerializeField] private RecallStates _recallState;
 
     [SerializeField] private LineController _lineController;
 
@@ -21,7 +22,6 @@ public class MemoryRecallSystem : MonoBehaviour
     [SerializeField] private RecallConclusionData _recallConclusionData;
 
     [Header("REVELATION")]
-    private Transform _mouseTransform;
     private int _revelationIdx;
 
     [Header("[CONCLUSION]")]
@@ -32,18 +32,25 @@ public class MemoryRecallSystem : MonoBehaviour
     void Start()
     {
         _recallUI = GetComponent<MemoryRecallUI>();
-        SetUI(RecallStates.RECALL_REVELATION);
+        ChangeState(RecallStates.RECALL_REVELATION);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // for testing purposes
-        if (Input.GetKey(KeyCode.Alpha1))
-            SetUI(RecallStates.RECALL_CONCLUSION);
+        if (_recallState == RecallStates.RECALL_REVELATION)
+        {
+            _lineController.UpdateLine();
 
-        if (_lineController.isLineStarted)
-            _lineController.UpdateLine(GetWorldPoint(Input.mousePosition));
+            if (_lineController.isMatched)
+                ChangeState(RecallStates.RECALL_CONCLUSION);
+        }
+    }
+
+    public void ChangeState(RecallStates state)
+    {
+        _recallState = state;
+        SetUI(_recallState);
     }
 
     private void SetUI(RecallStates state)
@@ -68,21 +75,6 @@ public class MemoryRecallSystem : MonoBehaviour
                 break;
         }
     }
-
-    #region REVELATION PHASE
-    public void OnDotClick()
-    {
-        if (_lineController.isLineStarted)
-            return;
-        else
-            _lineController.SetUpLine(GetWorldPoint(Input.mousePosition), GetWorldPoint(Input.mousePosition));
-    }
-
-    Vector3 GetWorldPoint(Vector3 mousePos)
-    {
-        return Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.nearClipPlane));
-    }
-    #endregion
 
     #region CONCLUSION PHASE
     public void OnConfirmButton()

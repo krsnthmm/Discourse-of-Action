@@ -7,6 +7,7 @@ public class MemoryRecallUI : MonoBehaviour
 {
     [Header("UI GROUPS")]
     [SerializeField] private GameObject _revelationGroup;
+    [SerializeField] private GameObject _revelationNodes;
     [SerializeField] private GameObject _conclusionGroup;
     [SerializeField] private GameObject _recallCompleteGO;
 
@@ -23,6 +24,7 @@ public class MemoryRecallUI : MonoBehaviour
     public IEnumerator ToggleUI(RecallStates state)
     {
         _revelationGroup.SetActive(false);
+        _revelationNodes.SetActive(false);
         _conclusionGroup.SetActive(false);
 
         yield return new WaitForSeconds(2);
@@ -31,6 +33,7 @@ public class MemoryRecallUI : MonoBehaviour
         {
             case RecallStates.RECALL_REVELATION:
                 _revelationGroup.SetActive(true);
+                _revelationNodes.SetActive(true);
                 _conclusionGroup.SetActive(false);
 
                 _backgroundImage.sprite = _startImage;
@@ -38,6 +41,7 @@ public class MemoryRecallUI : MonoBehaviour
                 break;
             case RecallStates.RECALL_CONCLUSION:
                 _revelationGroup.SetActive(false);
+                _revelationNodes.SetActive(false);
                 _conclusionGroup.SetActive(true);
 
                 _backgroundImage.sprite = _startImage;

@@ -2,43 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CircleCollider2D))]
+[RequireComponent(typeof(LineRenderer))]
 public class LineController : MonoBehaviour
 {
-    private LineRenderer _lineRenderer;
-    private List<Vector3> _points = new();
+    public int _nodeID;
 
-    public bool isLineStarted;
+    private LineRenderer _lineRenderer;
+
+    public bool isDragging;
+    public Vector3 endPoint;
+
+    private RevelationNode _revelationNode;
+
+    public bool isMatched;
 
     // Start is called before the first frame update
     void Start()
     {
         _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.positionCount = 2;
     }
 
-    public void SetUpLine(Vector3 startPoint, Vector3 endPoint)
+    public void UpdateLine()
     {
-        _points.Add(startPoint);
-        _points.Add(endPoint);
-
-        _lineRenderer.positionCount = _points.Count;
-
-        for (int i = 0; i < _lineRenderer.positionCount; i++)
-            _lineRenderer.SetPosition(i, _points[i]);
-
-        isLineStarted = true;
-    }
-
-    // Update is called once per frame
-    public void UpdateLine(Vector2 endPoint)
-    {
-        _lineRenderer.SetPosition((_lineRenderer.positionCount - 1), endPoint);
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetMouseButtonDown(0))
         {
-            _points.Clear();
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit.collider != null && hit.collider.gameObject == gameObject)
+            {
+                isDragging = true;
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePosition.z = 0f;
+                _lineRenderer.SetPosition(0, mousePosition);
+            }
+        }
+        if (isDragging)
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0f;
+            _lineRenderer.SetPosition(1, mousePosition);
+            endPoint = mousePosition;
+        }
 
-            _lineRenderer.positionCount = 0;
-            isLineStarted = false;
+        if (Input.GetMouseButtonUp(0))
+        {
+            isDragging = false;
+            RaycastHit2D hit = Physics2D.Raycast(endPoint, Vector2.zero);
+            if (hit.collider != null && hit.collider.TryGetComponent(out _revelationNode) && _nodeID == _revelationNode.GetID())
+            {
+                Debug.Log("Correct node!");
+                enabled = false;
+                isMatched = true;
+            }
+            else
+            {
+                _lineRenderer.positionCount = 0;
+                isMatched = false;
+            }
+
+            _lineRenderer.positionCount = 2;
         }
     }
 }
