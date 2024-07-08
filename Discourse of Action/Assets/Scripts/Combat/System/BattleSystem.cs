@@ -142,8 +142,9 @@ public class BattleSystem : MonoBehaviour
         if (_state == BattleState.WON)
         {
             _turnText.text = "VICTORY!";
+            AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.combatWonJingle);
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(AudioManager.instance.combatWonJingle.length + 1);
 
             GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
         }
@@ -184,7 +185,7 @@ public class BattleSystem : MonoBehaviour
         multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_INSTINCT] = 1.5f;
         multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_REASONING] = 1.5f;
 
-        // if card isn't very effective against key point, damage dealt is 0.5x normal damage
+        // if card is not very effective against key point, damage dealt is 0.5x normal damage
         multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_INSTINCT] = 0.5f;
         multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_REASONING] = 0.5f;
         multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_EMOTION] = 0.5f;

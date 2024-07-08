@@ -43,11 +43,5 @@ public class DialogueTrigger : MonoBehaviour
             // TODO: Remove UI Prompt
         }
     }
-
-    private void PlayClip(AudioSource source, AudioClip clip)
-    {
-        source.clip = clip;
-        source.Play();
-    }
 }
 

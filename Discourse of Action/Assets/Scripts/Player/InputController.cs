@@ -50,8 +50,8 @@ public class InputController : MonoBehaviour
     public bool TryGetKeyboardInput(out KeyboardInputCommand keyboardInputCommand)
     {
         keyboardInputCommand = null;
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.LeftShift))
-            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Run");
+        if (Input.GetKeyDown(KeyCode.F))
+            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Interact");
         else if (Input.GetKeyDown(KeyCode.LeftControl))
             keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Crouch");
         else if (Input.GetKeyDown(KeyCode.Space))

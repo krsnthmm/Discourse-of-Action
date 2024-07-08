@@ -13,9 +13,15 @@ public class AudioManager : MonoBehaviour
 
     [Header("[BACKGROUND MUSIC]")]
     public AudioClip menuBGM;
+    public AudioClip introBGM;
     public AudioClip gameBGM;
     public AudioClip combatBGM;
     public AudioClip bossBGM;
+    public AudioClip memoryRecallBGM;
+
+    [Header("[JINGLES]")]
+    public AudioClip combatWonJingle;
+    public AudioClip memoryRecallCompleteJingle;
 
     [Header("[SOUND EFFECTS]")]
     public AudioClip buttonSFX;

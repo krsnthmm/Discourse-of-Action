@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6007f7c064d7b684eaaaf1fa6dea6668, type: 3}
   m_Name: Act1GenericDeck
   m_EditorClassIdentifier: 
-  deck: []
+  listOfData:
+  - {fileID: 11400000, guid: 5b0a5a36d65f3f54b9a428043f899239, type: 2}
+  - {fileID: 11400000, guid: 539d8810b225c804fb6b98c4b6fcf206, type: 2}
+  - {fileID: 11400000, guid: 66e5d4252c2752641a790b52d744382a, type: 2}
+  - {fileID: 11400000, guid: 354ded2ec0e92894c8bc9c026b0ccb34, type: 2}

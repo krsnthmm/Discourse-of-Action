@@ -54,9 +54,8 @@ public class MemoryRecallUI : MonoBehaviour
 
                 _backgroundImage.sprite = _completeImage;
 
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(AudioManager.instance.memoryRecallCompleteJingle.length);
 
-                GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
                 break;
         }
     }

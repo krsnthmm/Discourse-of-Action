@@ -6,7 +6,8 @@ using TMPro;
 
 public enum DialogueTypes
 {
-    DIALOGUE_OVERWORLD,
+    DIALOGUE_FLAVOR,
+    DIALOGUE_COMBAT,
     DIALOGUE_STORY,
     DIALOGUE_RECALL,
     DIALOGUE_TOTAL
@@ -42,17 +43,16 @@ public class DialogueManager : MonoBehaviour
             instance = this;
     }
 
-    private void Update()
-    {
-        if (isInDialogue && Input.GetKeyDown(KeyCode.Space))
-            OnContinueButtonClick();
-    }
-
     public void StartDialogue(Dialogue dialogue)
     {
         if (!isInDialogue)
         {
             isInDialogue = true;
+
+            if (dialogueType == DialogueTypes.DIALOGUE_STORY)
+                characterSprite.gameObject.SetActive(true);
+            else
+                characterSprite.gameObject.SetActive(false);
 
             animator.SetBool("IsOpen", true);
             _lines.Clear();
@@ -92,7 +92,7 @@ public class DialogueManager : MonoBehaviour
 
         DialogueLine currentLine = _lines.Dequeue();
 
-        if (currentLine.character.icon != null)
+        if (currentLine.character.icon != null && characterSprite.gameObject.activeSelf)
             characterSprite.sprite = currentLine.character.icon;
 
         nameText.text = currentLine.character.name;
@@ -125,7 +125,7 @@ public class DialogueManager : MonoBehaviour
 
         switch (dialogueType)
         {
-            case DialogueTypes.DIALOGUE_OVERWORLD:
+            case DialogueTypes.DIALOGUE_COMBAT:
                 GameManager.instance.ChangeState(GameState.GAME_BATTLE);
                 break;
         }

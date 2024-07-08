@@ -69,6 +69,9 @@ public class GameManager : MonoBehaviour
             if (inputController.TryGetMovementAxisInput(out MovementAxisCommand movementAxisCommand))
                 playerController.ReadMovementAxisCommand(movementAxisCommand);
 
+            if (inputController.TryGetKeyboardInput(out KeyboardInputCommand keyboardInputCommand))
+                playerController.ReadKeyboardInputCommand(keyboardInputCommand);
+
             playerController.UpdateTransform();
 
             if (Input.GetKeyDown(KeyCode.Tab))
@@ -83,6 +86,9 @@ public class GameManager : MonoBehaviour
             gameState = gameState == GameState.GAME_MENU ? GameState.GAME_OVERWORLD : GameState.GAME_MENU;
             ChangeState(gameState);
         }
+
+        if (DialogueManager.instance != null && DialogueManager.instance.isInDialogue && Input.GetKeyDown(KeyCode.Space))
+            DialogueManager.instance.OnContinueButtonClick();
     }
 
     #region GENERAL
@@ -107,7 +113,7 @@ public class GameManager : MonoBehaviour
             case GameState.GAME_INTRO:
                 LoadScene(introSceneName);
                 menuCanvas.SetActive(false);
-                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.gameBGM);
+                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.introBGM);
                 break;
             case GameState.GAME_OVERWORLD:
                 LoadScene(overworldSceneName);
@@ -123,8 +129,12 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GAME_RECALL:
                 LoadScene(memoryRecallSceneName);
+                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.memoryRecallBGM);
                 break;
             case GameState.GAME_DIALOGUE:
+                // TODO: dialogue system implementation
+                break;
+            case GameState.GAME_CUTSCENE:
                 // TODO: dialogue system implementation
                 break;
         }

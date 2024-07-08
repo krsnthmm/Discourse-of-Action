@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6007f7c064d7b684eaaaf1fa6dea6668, type: 3}
   m_Name: PrimroseDeck
   m_EditorClassIdentifier: 
-  deck: []
+  listOfData:
+  - {fileID: 11400000, guid: dc08545dbbeb38c49b7114ff2a8529ad, type: 2}
+  - {fileID: 11400000, guid: db050bb840ca8314fb5e1f3ee0d66d75, type: 2}
+  - {fileID: 11400000, guid: a5546be08a0492f4985eb90ec1086f43, type: 2}
+  - {fileID: 11400000, guid: ffce405e076ef5e49866ff4e0a55d33c, type: 2}
+  - {fileID: 11400000, guid: 44eeb9c0dcd033044b68b2910d88f857, type: 2}

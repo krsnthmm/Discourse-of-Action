@@ -14,4 +14,6 @@ public class EnemyData : CharacterData
 
     public EnemyType enemyType;
     public KeyPointDeck keyPointDeck;
+
+    public bool hasWonAgainst;
 }

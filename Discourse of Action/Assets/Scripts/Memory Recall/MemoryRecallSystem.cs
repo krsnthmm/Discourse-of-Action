@@ -18,11 +18,8 @@ public class MemoryRecallSystem : MonoBehaviour
 
     [SerializeField] private LineController _lineController;
 
-    [SerializeField] private RecallRevelationData[] _recallRevelationsData;
+    [SerializeField] private RecallRevelationData _recallRevelationData;
     [SerializeField] private RecallConclusionData _recallConclusionData;
-
-    [Header("REVELATION")]
-    private int _revelationIdx;
 
     [Header("[CONCLUSION]")]
     private int _startIdx, _midIdx, _endIdx;
@@ -64,9 +61,9 @@ public class MemoryRecallSystem : MonoBehaviour
         switch (state)
         {
             case RecallStates.RECALL_REVELATION:
-                _recallUI.memoryPieceTextBox.text = _recallRevelationsData[_revelationIdx].memoryPieceText;
+                _recallUI.memoryPieceTextBox.text = _recallRevelationData.memoryPieceText;
                 for (int i = 0; i < _recallUI.inferenceTexts.Length; i++)
-                    _recallUI.inferenceTexts[i].text = _recallRevelationsData[_revelationIdx].inferenceTexts[i];
+                    _recallUI.inferenceTexts[i].text = _recallRevelationData.inferenceTexts[i];
                 break;
             case RecallStates.RECALL_CONCLUSION:
                 _recallUI.conclusionTexts[0].text = _recallConclusionData.conclusionStartOptions[Random.Range(0, _recallConclusionData.conclusionStartOptions.Length)];
@@ -80,7 +77,7 @@ public class MemoryRecallSystem : MonoBehaviour
     public void OnConfirmButton()
     {
         if (CheckConclusion())
-            SetUI(RecallStates.RECALL_COMPLETE);
+            StartCoroutine(CompleteStage());
         else
         {
             // instead of using SetUI, which randomises the text, we want to keep the text the same
@@ -167,6 +164,17 @@ public class MemoryRecallSystem : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    private IEnumerator CompleteStage()
+    {
+        ChangeState(RecallStates.RECALL_COMPLETE);
+
+        AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.memoryRecallCompleteJingle);
+
+        yield return new WaitForSeconds(AudioManager.instance.memoryRecallCompleteJingle.length);
+
+        GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
     }
     #endregion
 }
