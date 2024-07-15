@@ -11,7 +11,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        DialogueManager.instance.dialogueType = dialogueType;
+        DialogueManager.instance.SetDialogueType(dialogueType);
         DialogueManager.instance.StartDialogue(dialogue);
     }
 

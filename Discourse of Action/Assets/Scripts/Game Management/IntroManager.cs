@@ -5,17 +5,19 @@ using TMPro;
 public class IntroManager : MonoBehaviour
 {
     [Header("UI ELEMENTS")]
-    public TMP_InputField nameInput;
+    [SerializeField] private TMP_InputField nameInput;
+    [SerializeField] private Button confirmButton;
 
     private void Start()
     {
         nameInput.text = "Indigo";
+        confirmButton.interactable = false;
     }
 
     public void OnCharacterSelect(int index)
     {
         GameManager.instance.SelectCharacter(index);
-        Debug.Log("Selected Character: " + index);
+        confirmButton.interactable = true;
     }
 
     public void OnNameConfirm()

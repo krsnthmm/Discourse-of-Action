@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b4aca3465a7ab6458680ae2b0707b4a, type: 3}
-  m_Name: New Recall Conclusion Data
+  m_Name: Act3Conclusion
   m_EditorClassIdentifier: 
   conclusionStartOptions:
   - Aster was

@@ -18,8 +18,8 @@ public class MemoryRecallSystem : MonoBehaviour
 
     [SerializeField] private LineController _lineController;
 
-    [SerializeField] private RecallRevelationData _recallRevelationData;
-    [SerializeField] private RecallConclusionData _recallConclusionData;
+    private RecallRevelationData _recallRevelationData;
+    private RecallConclusionData _recallConclusionData;
 
     [Header("[CONCLUSION]")]
     private int _startIdx, _midIdx, _endIdx;
@@ -28,6 +28,9 @@ public class MemoryRecallSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _recallRevelationData = GameManager.instance.currentRevelationData;
+        _recallConclusionData = GameManager.instance.currentConclusionData;
+
         _recallUI = GetComponent<MemoryRecallUI>();
         ChangeState(RecallStates.RECALL_REVELATION);
     }

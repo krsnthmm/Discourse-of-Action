@@ -146,7 +146,25 @@ public class BattleSystem : MonoBehaviour
 
             yield return new WaitForSeconds(AudioManager.instance.combatWonJingle.length + 1);
 
-            GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
+            if (GameManager.instance.enemyToBattle.enemyType != EnemyData.EnemyType.ENEMY_NORMAL)
+            {
+                switch (GameManager.instance.enemyToBattle.enemyType)
+                {
+                    case EnemyData.EnemyType.ENEMY_BOSS_ASTER:
+                        GameManager.instance.SetRecallData(GameManager.instance.act1RecallData);
+                        break;
+                    case EnemyData.EnemyType.ENEMY_BOSS_PRIMROSE:
+                        GameManager.instance.SetRecallData(GameManager.instance.act2RecallData);
+                        break;
+                    case EnemyData.EnemyType.ENEMY_BOSS_IRIS:
+                        GameManager.instance.SetRecallData(GameManager.instance.act3RecallData);
+                        break;
+                }
+
+                GameManager.instance.ChangeState(GameState.GAME_RECALL);
+            }
+            else
+                GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
         }
         else if (_state == BattleState.LOST)
         {

@@ -996,6 +996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameInput: {fileID: 697390122}
+  confirmButton: {fileID: 1290726578}
 --- !u!4 &790333581
 Transform:
   m_ObjectHideFlags: 0

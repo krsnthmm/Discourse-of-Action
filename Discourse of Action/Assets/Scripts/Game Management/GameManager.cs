@@ -8,13 +8,11 @@ public enum GameState
     GAME_MENU,
     GAME_INTRO,
     GAME_OVERWORLD,
-    GAME_DIALOGUE,
     GAME_BATTLE,
     GAME_RECALL,
     GAME_CUTSCENE,
+    GAME_STORY,
     GAME_ENDING,
-    GAME_WIN,
-    GAME_LOSE
 }
 
 public class GameManager : MonoBehaviour
@@ -22,16 +20,32 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("[GAME COMPONENTS]")]
-    public GameObject menuCanvas;
+    public bool isPaused;
+    public Transform playerSpawn;
     public PlayerController playerController;
     public InputController inputController;
 
+    [Header("[MENU MANAGEMENT]")]
+    [SerializeField] private GameObject mainMenuGroup;
+    [SerializeField] private GameObject mainMenuBackButton;
+    [SerializeField] private GameObject[] mainMenuPages;
+    [SerializeField] private GameObject pauseMenuGroup;
+    [SerializeField] private GameObject pauseMenuBackButton;
+    [SerializeField] private GameObject[] pauseMenuPages;
     [Header("[CHARACTER DATA]")]
     public PlayerData currentPlayerData;
     public FinalBossData finalBossData;
 
-    [Header("[GAME STATES]")]
+    [Header("[MEMORY RECALL DATA]")]
+    public MemoryRecallData act1RecallData;
+    public MemoryRecallData act2RecallData;
+    public MemoryRecallData act3RecallData;
+    public RecallRevelationData currentRevelationData;
+    public RecallConclusionData currentConclusionData;
+
+    [Header("[GAME DATABASE]")]
     public GameState gameState;
+    public GameFlags activatedFlags;
 
     [Header("[SCENES]")]
     public string menuSceneName;
@@ -64,34 +78,37 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameState == GameState.GAME_OVERWORLD)
+        if (!isPaused)
         {
-            if (inputController.TryGetMovementAxisInput(out MovementAxisCommand movementAxisCommand))
-                playerController.ReadMovementAxisCommand(movementAxisCommand);
-
-            if (inputController.TryGetKeyboardInput(out KeyboardInputCommand keyboardInputCommand))
-                playerController.ReadKeyboardInputCommand(keyboardInputCommand);
-
-            playerController.UpdateTransform();
-
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (gameState == GameState.GAME_OVERWORLD)
             {
-                gameState = GameState.GAME_RECALL;
-                ChangeState(gameState);
+                if (inputController.TryGetMovementAxisInput(out MovementAxisCommand movementAxisCommand))
+                    playerController.ReadMovementAxisCommand(movementAxisCommand);
+
+                if (inputController.TryGetKeyboardInput(out KeyboardInputCommand keyboardInputCommand))
+                    playerController.ReadKeyboardInputCommand(keyboardInputCommand);
+
+                playerController.UpdateTransform();
             }
+
+            if (DialogueManager.instance != null && DialogueManager.instance.isInDialogue && Input.GetKeyDown(KeyCode.Space))
+                DialogueManager.instance.OnContinueButtonClick();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && gameState > GameState.GAME_INTRO && gameState < GameState.GAME_ENDING)
         {
-            gameState = gameState == GameState.GAME_MENU ? GameState.GAME_OVERWORLD : GameState.GAME_MENU;
-            ChangeState(gameState);
+            isPaused = !isPaused;
+            OnTogglePause(isPaused);
         }
-
-        if (DialogueManager.instance != null && DialogueManager.instance.isInDialogue && Input.GetKeyDown(KeyCode.Space))
-            DialogueManager.instance.OnContinueButtonClick();
     }
 
     #region GENERAL
+
+    void OnTogglePause(bool isPaused)
+    {
+        pauseMenuGroup.SetActive(isPaused);
+        TogglePausePages(0);
+    }
 
     public void ChangeState(GameState state)
     {
@@ -105,19 +122,19 @@ public class GameManager : MonoBehaviour
         {
             case GameState.GAME_MENU:
                 LoadScene(menuSceneName);
-                menuCanvas.SetActive(true);
+                mainMenuGroup.SetActive(true);
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.menuBGM);
 
                 playerController.gameObject.SetActive(false);
                 break;
             case GameState.GAME_INTRO:
                 LoadScene(introSceneName);
-                menuCanvas.SetActive(false);
+                mainMenuGroup.SetActive(false);
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.introBGM);
                 break;
             case GameState.GAME_OVERWORLD:
                 LoadScene(overworldSceneName);
-                menuCanvas.SetActive(false);
+                mainMenuGroup.SetActive(false);
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.gameBGM);
 
                 playerController.gameObject.SetActive(true);
@@ -131,13 +148,18 @@ public class GameManager : MonoBehaviour
                 LoadScene(memoryRecallSceneName);
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.memoryRecallBGM);
                 break;
-            case GameState.GAME_DIALOGUE:
-                // TODO: dialogue system implementation
+            case GameState.GAME_STORY:
+                // TODO: dialogue stuff i guess
                 break;
-            case GameState.GAME_CUTSCENE:
-                // TODO: dialogue system implementation
+            case GameState.GAME_ENDING:
+                LoadScene(endSceneName);
                 break;
         }
+    }
+
+    public void OnQuitButtonClick()
+    {
+        Application.Quit();
     }
 
     public void DestroyInstance()
@@ -155,24 +177,57 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.GAME_INTRO);
     }
 
-    public void OnControlsButtonClick()
+    public void ToggleMenuPages(int selectedIndex)
     {
-        Debug.Log("Controls");
+        // toggle between pages on the main menu
+
+        if (selectedIndex == 0) // if the destination is the main menu, hide the back button
+            mainMenuBackButton.SetActive(false);
+        else
+            mainMenuBackButton.SetActive(true);
+
+        for (int i = 0; i < mainMenuPages.Length; i++)
+        {
+            if (i == selectedIndex)
+                mainMenuPages[i].SetActive(true);
+            else
+                mainMenuPages[i].SetActive(false);
+        }
     }
 
-    public void OnSettingsButtonClick()
+    #endregion
+
+    #region PAUSE MENU
+
+    public void OnUnpauseClick()
     {
-        Debug.Log("Settings");
+        isPaused = false;
+        OnTogglePause(isPaused);
     }
 
-    public void OnBackButtonClick()
+    public void OnMenuButtonClick()
     {
-        Debug.Log("Back to Main");
+        isPaused = false;
+        OnTogglePause(isPaused);
+        ChangeState(GameState.GAME_MENU);
     }
 
-    public void OnQuitButtonClick()
+    public void TogglePausePages(int selectedIndex)
     {
-        Application.Quit();
+        // toggle between pages on the pause menu
+
+        if (selectedIndex == 0 || selectedIndex == pauseMenuPages.Length - 1) // if the destination is the pause menu or the confirm page, hide the back button
+            pauseMenuBackButton.SetActive(false);
+        else
+            pauseMenuBackButton.SetActive(true);
+
+        for (int i = 0; i < pauseMenuPages.Length; i++)
+        {
+            if (i == selectedIndex)
+                pauseMenuPages[i].SetActive(true);
+            else
+                pauseMenuPages[i].SetActive(false);
+        }
     }
 
     #endregion
@@ -190,7 +245,33 @@ public class GameManager : MonoBehaviour
     public void SetName(string name)
     {
         currentPlayerData.characterName = name;
+
+        playerController.transform.position = playerSpawn.position;
         ChangeState(GameState.GAME_OVERWORLD);
+    }
+
+    #endregion
+
+    #region FLAGS
+
+    public bool IsFlagActivated(GameFlags flag)
+    {
+        return activatedFlags != GameFlags.Undefined && GameManager.instance.activatedFlags.HasFlag(flag);
+    }
+
+    public void SetFlag(GameFlags flag)
+    {
+        activatedFlags |= flag;
+    }
+
+    #endregion
+
+    #region RECALL
+
+    public void SetRecallData(MemoryRecallData data)
+    {
+        currentRevelationData = data.revelationDatas[0];
+        currentConclusionData = data.conclusionData;
     }
 
     #endregion

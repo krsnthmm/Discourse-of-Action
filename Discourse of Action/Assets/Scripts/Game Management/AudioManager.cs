@@ -1,10 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
+
+    [Header("[VOLUME MANAGEMENT]")]
+    public AudioMixer mixer;
+    public Slider masterSlider;
+    public Slider BGMSlider;
+    public Slider SFXSlider;
 
     [Header("[AUDIO SOURCES]")]
     public AudioSource BGMSource;
@@ -25,19 +31,18 @@ public class AudioManager : MonoBehaviour
 
     [Header("[SOUND EFFECTS]")]
     public AudioClip buttonSFX;
-
-    [Header("[VOICE]")]
-    public AudioClip femIntro;
-    public AudioClip mascIntro;
-    public AudioClip femCombatEnd;
-    public AudioClip mascCombatEnd;
     
     void Start()
     {
         if (instance == null)
         {
             instance = this;
-            PlayClip(BGMSource, menuBGM); // this should only work for the main menu
+
+            masterSlider.value = PlayerPrefsManager.Load("MasterVolume");
+            BGMSlider.value = PlayerPrefsManager.Load("BGMVolume");
+            SFXSlider.value = PlayerPrefsManager.Load("SFXVolume");
+
+            PlayClip(BGMSource, menuBGM);
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -53,5 +58,23 @@ public class AudioManager : MonoBehaviour
     public void StopPlayback(AudioSource audioSrc)
     {
         audioSrc.Stop();
+    }
+
+    public void SetMasterVolume()
+    {
+        mixer.SetFloat("MasterVolume", masterSlider.value);
+        PlayerPrefsManager.Save("MasterVolume", masterSlider.value);
+    }
+
+    public void SetBGMVolume()
+    {
+        mixer.SetFloat("BGMVolume", BGMSlider.value);
+        PlayerPrefsManager.Save("BGMVolume", BGMSlider.value);
+    }
+
+    public void SetSFXVolume()
+    {
+        mixer.SetFloat("SFXVolume", SFXSlider.value);
+        PlayerPrefsManager.Save("SFXVolume", SFXSlider.value);
     }
 }

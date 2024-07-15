@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329e28fda58e8134d9faa561dea76012, type: 3}
+  m_Name: Act1Recall
+  m_EditorClassIdentifier: 
+  revelationDatas:
+  - {fileID: 11400000, guid: 35575021985ea8e4db1a8edd8810e2b4, type: 2}
+  conclusionData: {fileID: 11400000, guid: cfafd8a04775c37448ddae4efc7bc16a, type: 2}

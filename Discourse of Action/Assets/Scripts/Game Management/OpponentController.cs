@@ -27,7 +27,7 @@ public class OpponentController : Character, Interactable
     {
         _renderer.SetBool("isWalking", _movement.isMoving);
 
-        DialogueManager.instance.dialogueType = dialogueType;
+        DialogueManager.instance.SetDialogueType(dialogueType);
         DialogueManager.instance.StartDialogue(dialogue);
 
         GameManager.instance.enemyToBattle = (EnemyData)_data;

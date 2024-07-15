@@ -2385,8 +2385,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _recallState: 0
   _lineController: {fileID: 845416551}
-  _recallRevelationData: {fileID: 0}
-  _recallConclusionData: {fileID: 11400000, guid: cfafd8a04775c37448ddae4efc7bc16a, type: 2}
 --- !u!4 &1374700351
 Transform:
   m_ObjectHideFlags: 0

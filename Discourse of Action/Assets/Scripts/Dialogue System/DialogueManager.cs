@@ -17,7 +17,6 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
 
-    public DialogueTypes dialogueType;
 
     public bool isInDialogue;
 
@@ -31,7 +30,7 @@ public class DialogueManager : MonoBehaviour
     private Queue<DialogueLine> _lines = new();
     private Coroutine _typeLineCoroutine = null;
     private DialogueLine _lastLine; // stores the last dequeued sentence; needed for sentence completion
-
+    private DialogueTypes _dialogueType;
 
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _buttonClip;
@@ -49,7 +48,7 @@ public class DialogueManager : MonoBehaviour
         {
             isInDialogue = true;
 
-            if (dialogueType == DialogueTypes.DIALOGUE_STORY)
+            if (_dialogueType == DialogueTypes.DIALOGUE_STORY)
                 characterSprite.gameObject.SetActive(true);
             else
                 characterSprite.gameObject.SetActive(false);
@@ -123,11 +122,16 @@ public class DialogueManager : MonoBehaviour
 
         animator.SetBool("IsOpen", false);
 
-        switch (dialogueType)
+        switch (_dialogueType)
         {
             case DialogueTypes.DIALOGUE_COMBAT:
                 GameManager.instance.ChangeState(GameState.GAME_BATTLE);
                 break;
         }
+    }
+
+    public void SetDialogueType(DialogueTypes selectedType)
+    {
+        _dialogueType = selectedType;
     }
 }
