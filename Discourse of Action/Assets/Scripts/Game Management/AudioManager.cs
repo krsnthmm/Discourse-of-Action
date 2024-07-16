@@ -15,7 +15,6 @@ public class AudioManager : MonoBehaviour
     [Header("[AUDIO SOURCES]")]
     public AudioSource BGMSource;
     public AudioSource SFXSource;
-    public AudioSource voiceSource;
 
     [Header("[BACKGROUND MUSIC]")]
     public AudioClip menuBGM;
@@ -31,6 +30,11 @@ public class AudioManager : MonoBehaviour
 
     [Header("[SOUND EFFECTS]")]
     public AudioClip buttonSFX;
+    public AudioClip dialogueSFX;
+    public AudioClip opponentTriggerSFX;
+    public AudioClip superEffectiveSFX;
+    public AudioClip normalEffectiveSFX;
+    public AudioClip notEffectiveSFX;
     
     void Start()
     {

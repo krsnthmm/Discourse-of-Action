@@ -12,6 +12,8 @@ public class OpponentController : Character, Interactable
 
     public IEnumerator TriggerCombat(PlayerController player)
     {
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.opponentTriggerSFX);
+
         exclamation.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         exclamation.SetActive(false);

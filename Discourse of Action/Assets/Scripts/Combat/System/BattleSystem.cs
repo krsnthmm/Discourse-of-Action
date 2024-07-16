@@ -76,14 +76,14 @@ public class BattleSystem : MonoBehaviour
     {
         if (_playerUnit.characterData.currHealth <= 0)
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
 
             _state = BattleState.LOST;
             StartCoroutine(EndBattle());
         }
         else
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
 
             for (int i = 0; i < _cardManager.availableHandSlots.Length; i++)
                 _cardManager.DrawCard();
@@ -99,6 +99,19 @@ public class BattleSystem : MonoBehaviour
     {
         _targetKeyPoint = _keyPointManager.selectedKeyPoint;
         _keyPointManager.RemoveFromDisplay(_targetKeyPoint);
+
+        switch(CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType))
+        {
+            case 1.5f:
+                AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.superEffectiveSFX);
+                break;
+            case 1f:
+                AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.normalEffectiveSFX);
+                break;
+            case 0.5f:
+                AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.notEffectiveSFX);
+                break;
+        }
 
         _enemyUnit.characterData.TakeDamage((int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType)));
         _enemyHUD.UpdateHealthValue();
@@ -125,6 +138,8 @@ public class BattleSystem : MonoBehaviour
         _keyPointManager.PutOnDisplay();
 
         yield return new WaitForSeconds(1);
+
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.normalEffectiveSFX);
 
         _playerUnit.characterData.TakeDamage(5);
         _playerHUD.UpdateHealthValue();

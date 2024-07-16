@@ -174,12 +174,14 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayButtonClick()
     {
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
         ChangeState(GameState.GAME_INTRO);
     }
 
     public void ToggleMenuPages(int selectedIndex)
     {
         // toggle between pages on the main menu
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
 
         if (selectedIndex == 0) // if the destination is the main menu, hide the back button
             mainMenuBackButton.SetActive(false);
@@ -201,12 +203,16 @@ public class GameManager : MonoBehaviour
 
     public void OnUnpauseClick()
     {
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
         isPaused = false;
         OnTogglePause(isPaused);
     }
 
     public void OnMenuButtonClick()
     {
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
         isPaused = false;
         OnTogglePause(isPaused);
         ChangeState(GameState.GAME_MENU);
@@ -215,6 +221,7 @@ public class GameManager : MonoBehaviour
     public void TogglePausePages(int selectedIndex)
     {
         // toggle between pages on the pause menu
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
 
         if (selectedIndex == 0 || selectedIndex == pauseMenuPages.Length - 1) // if the destination is the pause menu or the confirm page, hide the back button
             pauseMenuBackButton.SetActive(false);
@@ -236,6 +243,8 @@ public class GameManager : MonoBehaviour
 
     public void SelectCharacter(int index) // 0 = masc, 1 = fem
     {
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
         currentPlayerData.selectedCharacter = (PlayerData.Character)index;
 
         currentPlayerData.SetAnimatorController();
@@ -244,6 +253,8 @@ public class GameManager : MonoBehaviour
 
     public void SetName(string name)
     {
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
         currentPlayerData.characterName = name;
 
         playerController.transform.position = playerSpawn.position;

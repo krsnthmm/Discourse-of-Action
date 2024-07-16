@@ -67,8 +67,7 @@ public class DialogueManager : MonoBehaviour
 
     public void OnContinueButtonClick()
     {
-        //_audioSource.clip = _buttonClip;
-        //_audioSource.Play();
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
 
         // check if a sentence is currently being typed
         if (_typeLineCoroutine != null)
@@ -106,6 +105,8 @@ public class DialogueManager : MonoBehaviour
 
         foreach (char letter in dialogueLine.line.ToCharArray())
         {
+            AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.dialogueSFX);
+
             dialogueText.text += letter;
             yield return new WaitForSeconds(0.1f);
         }

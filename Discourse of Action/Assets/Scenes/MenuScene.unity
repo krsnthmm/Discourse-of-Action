@@ -1266,10 +1266,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1297,7 +1297,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!224 &328754915
 RectTransform:
@@ -2653,10 +2653,10 @@ RectTransform:
   m_Father: {fileID: 328754915}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &688066602
 GameObject:
@@ -3152,7 +3152,6 @@ MonoBehaviour:
   SFXSlider: {fileID: 1815820463}
   BGMSource: {fileID: 1172612661}
   SFXSource: {fileID: 1277505215}
-  voiceSource: {fileID: 0}
   menuBGM: {fileID: 8300000, guid: c52a51abc90179f43af6874d247e9bc0, type: 3}
   introBGM: {fileID: 8300000, guid: 9384a587e91f81a42b6fc3292584197d, type: 3}
   gameBGM: {fileID: 8300000, guid: 1fd44912e382cf44cae644d0ccb651de, type: 3}
@@ -3161,7 +3160,12 @@ MonoBehaviour:
   memoryRecallBGM: {fileID: 8300000, guid: 121a804a6532efe4f963f2009c7c13d5, type: 3}
   combatWonJingle: {fileID: 8300000, guid: 3228fe920ff30d149b38d7d142bfa7e8, type: 3}
   memoryRecallCompleteJingle: {fileID: 8300000, guid: 86dd80ac9459ddf4cb28b34d379ec154, type: 3}
-  buttonSFX: {fileID: 0}
+  buttonSFX: {fileID: 8300000, guid: 31583bfc860175f4494812bca21288bb, type: 3}
+  dialogueSFX: {fileID: 8300000, guid: e819dfd692b59dd49ad2dedd8ecf56d6, type: 3}
+  opponentTriggerSFX: {fileID: 8300000, guid: 0df9e20c84c9c254099eb5608f75ab6f, type: 3}
+  superEffectiveSFX: {fileID: 8300000, guid: 029e9e0758001024aa29694fadc81248, type: 3}
+  normalEffectiveSFX: {fileID: 8300000, guid: 3659b600519a34b47b7b794bcbc594af, type: 3}
+  notEffectiveSFX: {fileID: 8300000, guid: df61e02980ef73a4998dc2a2e0de487d, type: 3}
 --- !u!1 &797116175
 GameObject:
   m_ObjectHideFlags: 0
@@ -6317,10 +6321,10 @@ RectTransform:
   m_Father: {fileID: 687781851}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2304, y: 1080}
+  m_SizeDelta: {x: 2304, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768140305
 MonoBehaviour:

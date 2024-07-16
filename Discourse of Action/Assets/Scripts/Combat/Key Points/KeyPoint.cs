@@ -19,6 +19,8 @@ public class KeyPoint : MonoBehaviour
 
     public void SetKeyPoint()
     {
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
         _keyPointManager.selectedKeyPoint = this;
         _keyPointManager.SetTarget(this);
     }
