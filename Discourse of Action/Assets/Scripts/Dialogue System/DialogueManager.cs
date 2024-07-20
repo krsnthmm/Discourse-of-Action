@@ -32,14 +32,16 @@ public class DialogueManager : MonoBehaviour
     private DialogueLine _lastLine; // stores the last dequeued sentence; needed for sentence completion
     private DialogueTypes _dialogueType;
 
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private AudioClip _buttonClip;
-
     // Start is called before the first frame update
     void Start()
     {
         if (instance == null)
+        {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -119,7 +121,6 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("End of conversation.");
 
         isInDialogue = false;
-        //guiGroup.SetActive(true);
 
         animator.SetBool("IsOpen", false);
 

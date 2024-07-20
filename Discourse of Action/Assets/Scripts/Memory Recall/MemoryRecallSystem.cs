@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public enum RecallStates
 {
@@ -177,7 +175,7 @@ public class MemoryRecallSystem : MonoBehaviour
 
         yield return new WaitForSeconds(AudioManager.instance.memoryRecallCompleteJingle.length);
 
-        GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
+        GameManager.instance.ChangeState(GameState.GAME_ENDING); // for beta purposes
     }
     #endregion
 }

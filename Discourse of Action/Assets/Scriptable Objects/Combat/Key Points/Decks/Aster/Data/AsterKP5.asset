@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5788d2b455a5342488aebddd397eb2c4, type: 3}
   m_Name: AsterKP5
   m_EditorClassIdentifier: 
-  keyPointType: 3
-  keyPointText: ZOO WEE MAMA!!!
+  keyPointType: 2
+  keyPointText: You've forgotten me again. I don't want you to.

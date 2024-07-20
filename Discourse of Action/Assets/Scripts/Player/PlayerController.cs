@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Character
@@ -9,6 +7,7 @@ public class PlayerController : Character
     void OnEnable ()
     {
         _renderer.RenderCharacter(_data);
+        HandleFacingDirection(_renderer.defaultDirection);
     }
 
     public void ReadMovementAxisCommand(MovementAxisCommand command)

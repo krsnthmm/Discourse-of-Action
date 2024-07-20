@@ -76,14 +76,14 @@ public class BattleSystem : MonoBehaviour
     {
         if (_playerUnit.characterData.currHealth <= 0)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
 
             _state = BattleState.LOST;
             StartCoroutine(EndBattle());
         }
         else
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
 
             for (int i = 0; i < _cardManager.availableHandSlots.Length; i++)
                 _cardManager.DrawCard();
@@ -116,12 +116,21 @@ public class BattleSystem : MonoBehaviour
         _enemyUnit.characterData.TakeDamage((int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType)));
         _enemyHUD.UpdateHealthValue();
 
+        _enemyUnit.characterRenderer.animator.SetInteger("Hurt", 1);
+        _enemyHUD.UpdateDamageText("" + (int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType)));
+
+        yield return new WaitForSeconds(0.1f);
+
+        _enemyUnit.characterRenderer.animator.SetInteger("Hurt", 0);
+
         _state = BattleState.ENEMY_TURN;
 
         for (int i = 0; i < _cardManager.hand.Count; i++)
             _cardManager.hand[i].GetComponent<Button>().interactable = false;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.4f);
+
+        _enemyHUD.UpdateDamageText("");
 
         if (_enemyUnit.characterData.currHealth <= 0)
         {
@@ -137,14 +146,23 @@ public class BattleSystem : MonoBehaviour
         _turnText.text = "ENEMY TURN";
         _keyPointManager.PutOnDisplay();
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
 
         AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.normalEffectiveSFX);
 
         _playerUnit.characterData.TakeDamage(5);
         _playerHUD.UpdateHealthValue();
 
-        yield return new WaitForSeconds(1);
+        _playerUnit.characterRenderer.animator.SetInteger("Hurt", 1);
+        _playerHUD.UpdateDamageText("" + 5);
+
+        yield return new WaitForSeconds(0.1f);
+
+        _playerUnit.characterRenderer.animator.SetInteger("Hurt", 0);
+
+        yield return new WaitForSeconds(0.4f);
+
+        _playerHUD.UpdateDamageText("");
 
         _state = BattleState.PLAYER_TURN;
         StartCoroutine(PlayerTurn());
@@ -158,6 +176,8 @@ public class BattleSystem : MonoBehaviour
         {
             _turnText.text = "VICTORY!";
             AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.combatWonJingle);
+
+            GameManager.instance.enemyToBattle.hasWonAgainst = true;
 
             yield return new WaitForSeconds(AudioManager.instance.combatWonJingle.length + 1);
 

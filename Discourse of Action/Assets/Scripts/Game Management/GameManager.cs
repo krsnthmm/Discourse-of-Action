@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,12 +25,15 @@ public class GameManager : MonoBehaviour
     public InputController inputController;
 
     [Header("[MENU MANAGEMENT]")]
+    [SerializeField] private GameObject mainMenuBackground;
     [SerializeField] private GameObject mainMenuGroup;
     [SerializeField] private GameObject mainMenuBackButton;
     [SerializeField] private GameObject[] mainMenuPages;
+    [SerializeField] private GameObject pauseMenuBackground;
     [SerializeField] private GameObject pauseMenuGroup;
     [SerializeField] private GameObject pauseMenuBackButton;
     [SerializeField] private GameObject[] pauseMenuPages;
+
     [Header("[CHARACTER DATA]")]
     public PlayerData currentPlayerData;
     public FinalBossData finalBossData;
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviour
     public GameFlags activatedFlags;
 
     [Header("[SCENES]")]
+    public Animator transitionAnimator;
     public string menuSceneName;
     public string introSceneName;
     public string overworldSceneName;
@@ -70,9 +73,17 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void LoadScene(string sceneName)
+    public IEnumerator LoadScene(string sceneName, bool isMenuActive)
     {
+        transitionAnimator.SetTrigger("Start");
+
+        yield return new WaitForSeconds(1);
+
         SceneManager.LoadScene(sceneName);
+        mainMenuGroup.SetActive(isMenuActive);
+        mainMenuBackground.SetActive(isMenuActive);
+
+        transitionAnimator.SetTrigger("End");
     }
 
     // Update is called once per frame
@@ -95,7 +106,7 @@ public class GameManager : MonoBehaviour
                 DialogueManager.instance.OnContinueButtonClick();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && gameState > GameState.GAME_INTRO && gameState < GameState.GAME_ENDING)
+        if (Input.GetKeyDown(KeyCode.Escape) && gameState > GameState.GAME_MENU && gameState < GameState.GAME_ENDING)
         {
             isPaused = !isPaused;
             OnTogglePause(isPaused);
@@ -104,10 +115,29 @@ public class GameManager : MonoBehaviour
 
     #region GENERAL
 
+    void ResetStates()
+    {
+        foreach (EnemyData enemy in enemies)
+            enemy.hasWonAgainst = false;
+
+        SetFlag(GameFlags.Undefined);
+    }
+
     void OnTogglePause(bool isPaused)
     {
-        pauseMenuGroup.SetActive(isPaused);
-        TogglePausePages(0);
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
+        if (isPaused) // if true
+            pauseMenuGroup.SetActive(isPaused);
+        else // if false
+        {
+            foreach (var page in pauseMenuPages) // coming back to menu from pausing the game
+                page.SetActive(isPaused);
+
+            pauseMenuBackButton.SetActive(isPaused);
+        }
+
+        pauseMenuBackground.SetActive(isPaused);
     }
 
     public void ChangeState(GameState state)
@@ -121,38 +151,43 @@ public class GameManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.GAME_MENU:
-                LoadScene(menuSceneName);
-                mainMenuGroup.SetActive(true);
+                StartCoroutine(LoadScene(menuSceneName, true));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.menuBGM);
-
+                
                 playerController.gameObject.SetActive(false);
+
+                DialogueManager.instance.animator.SetBool("IsOpen", false);
+                DialogueManager.instance.isInDialogue = false;
+
+                ResetFlags();
                 break;
             case GameState.GAME_INTRO:
-                LoadScene(introSceneName);
-                mainMenuGroup.SetActive(false);
+                StartCoroutine(LoadScene(introSceneName, false));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.introBGM);
+
+                ResetStates();
                 break;
             case GameState.GAME_OVERWORLD:
-                LoadScene(overworldSceneName);
-                mainMenuGroup.SetActive(false);
+                StartCoroutine(LoadScene(overworldSceneName, false));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.gameBGM);
 
                 playerController.gameObject.SetActive(true);
                 break;
             case GameState.GAME_BATTLE:
-                LoadScene(battleSceneName);
+                StartCoroutine(LoadScene(battleSceneName, false));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.combatBGM);
                 currentPlayerData.SetAnimatorController();
                 break;
             case GameState.GAME_RECALL:
-                LoadScene(memoryRecallSceneName);
+                StartCoroutine(LoadScene(memoryRecallSceneName, false));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.memoryRecallBGM);
                 break;
             case GameState.GAME_STORY:
                 // TODO: dialogue stuff i guess
                 break;
             case GameState.GAME_ENDING:
-                LoadScene(endSceneName);
+                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.menuBGM);
+                StartCoroutine(LoadScene(endSceneName, false));
                 break;
         }
     }
@@ -174,6 +209,7 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayButtonClick()
     {
+        transitionAnimator.gameObject.SetActive(true);
         AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
         ChangeState(GameState.GAME_INTRO);
     }
@@ -211,11 +247,12 @@ public class GameManager : MonoBehaviour
 
     public void OnMenuButtonClick()
     {
+        ChangeState(GameState.GAME_MENU);
+
         AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
 
         isPaused = false;
         OnTogglePause(isPaused);
-        ChangeState(GameState.GAME_MENU);
     }
 
     public void TogglePausePages(int selectedIndex)
@@ -273,6 +310,11 @@ public class GameManager : MonoBehaviour
     public void SetFlag(GameFlags flag)
     {
         activatedFlags |= flag;
+    }
+
+    public void ResetFlags()
+    {
+        activatedFlags = GameFlags.Undefined;
     }
 
     #endregion

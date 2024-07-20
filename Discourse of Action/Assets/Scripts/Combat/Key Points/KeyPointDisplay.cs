@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,6 +5,7 @@ using TMPro;
 public class KeyPointDisplay : MonoBehaviour
 {
     private KeyPoint _keyPoint;
+    [SerializeField] private Animator _animator;
 
     [Header("[PROPERTIES]")]
     [SerializeField] private TMP_Text _keyPointText;
@@ -52,5 +51,15 @@ public class KeyPointDisplay : MonoBehaviour
                 _typeImage.sprite = _instinctTypeBubble;
                 break;
         }
+    }
+
+    public void OnHover()
+    {
+        _animator.SetBool("Hover", true);
+    }
+
+    public void OnLeave()
+    {
+        _animator.SetBool("Hover", false);
     }
 }

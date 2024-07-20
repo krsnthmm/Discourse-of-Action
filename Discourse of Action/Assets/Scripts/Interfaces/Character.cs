@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,7 +15,7 @@ public class Character : MonoBehaviour
         _renderer = GetComponent<CharacterRenderer>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         HandleFacingDirection(_renderer.defaultDirection);
     }
@@ -51,5 +49,10 @@ public class Character : MonoBehaviour
         else
             Debug.Log("Error: You can't ask the NPC to look diagonally.");
 
+    }
+
+    public CharacterData GetData()
+    {
+        return _data;
     }
 }

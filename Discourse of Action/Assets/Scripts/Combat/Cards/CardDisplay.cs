@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,10 +6,16 @@ using TMPro;
 public class CardDisplay : MonoBehaviour
 {
     private Card _card;
+    [SerializeField] private Animator _animator;
 
     [Header("[CARD ELEMENTS]")]
     [SerializeField] private TMP_Text _tierText;
     [SerializeField] private Image _typeImage;
+
+    [Header("[TEXT COLORS]")]
+    [SerializeField] private Color _normalColor;
+    [SerializeField] private Color _rareColor;
+    [SerializeField] private Color _superRareColor;
 
     [Header("[SPRITE ASSETS]")]
     [SerializeField] private Sprite _emotionTypeIcon;
@@ -38,12 +43,15 @@ public class CardDisplay : MonoBehaviour
         {
             case CardData.CardTier.TIER_NORMAL:
                 _tierText.text = "N";
+                _tierText.color = _normalColor;
                 break;
             case CardData.CardTier.TIER_RARE:
                 _tierText.text = "R";
+                _tierText.color = _rareColor;
                 break;
             case CardData.CardTier.TIER_SUPERRARE:
                 _tierText.text = "SR";
+                _tierText.color = _superRareColor;
                 break;
         }
     }
@@ -62,5 +70,15 @@ public class CardDisplay : MonoBehaviour
                 _typeImage.sprite = _instinctTypeIcon;
                 break;
         }
+    }
+
+    public void OnHover()
+    {
+        _animator.SetBool("Hover", true);
+    }
+
+    public void OnLeave()
+    {
+        _animator.SetBool("Hover", false);
     }
 }

@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FlagNPCController : Character, Interactable
+public class FlagOpponentController : Character, Interactable
 {
     public GameFlags requiredFlag;
+    public GameFlags flagToChange;
+
+    public Dialogue wonDialogue;
 
     [Header("[REQUIRED FLAG ACTIVATED]")]
     public Dialogue trueDialogue;
@@ -18,10 +19,17 @@ public class FlagNPCController : Character, Interactable
     {
         LookTowards(initiator.position);
 
-        if (GameManager.instance.IsFlagActivated(requiredFlag))
-            ShowDialogue(trueDialogue, trueDialogueType);
+        EnemyData enemy = (EnemyData)_data;
+
+        if (!enemy.hasWonAgainst)
+        {
+            if (GameManager.instance.IsFlagActivated(requiredFlag))
+                ShowDialogue(trueDialogue, trueDialogueType);
+            else
+                ShowDialogue(falseDialogue, falseDialogueType);
+        }
         else
-            ShowDialogue(falseDialogue, falseDialogueType);
+            ShowWonDialogue();
     }
 
     void ShowDialogue(Dialogue selectedDialogue, DialogueTypes selectedDialogueType)
@@ -31,5 +39,14 @@ public class FlagNPCController : Character, Interactable
 
         if (selectedDialogueType == DialogueTypes.DIALOGUE_COMBAT)
             GameManager.instance.enemyToBattle = (EnemyData)_data;
+
+        if (flagToChange != GameFlags.Undefined)
+            GameManager.instance.SetFlag(flagToChange);
+    }
+
+    public void ShowWonDialogue()
+    {
+        DialogueManager.instance.SetDialogueType(DialogueTypes.DIALOGUE_FLAVOR);
+        DialogueManager.instance.StartDialogue(wonDialogue);
     }
 }
