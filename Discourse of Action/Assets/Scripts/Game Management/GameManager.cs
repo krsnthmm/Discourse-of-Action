@@ -19,20 +19,17 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("[GAME COMPONENTS]")]
+    public int currentLevel;
     public bool isPaused;
     public Transform playerSpawn;
     public PlayerController playerController;
     public InputController inputController;
 
-    [Header("[MENU MANAGEMENT]")]
-    [SerializeField] private GameObject mainMenuBackground;
-    [SerializeField] private GameObject mainMenuGroup;
-    [SerializeField] private GameObject mainMenuBackButton;
-    [SerializeField] private GameObject[] mainMenuPages;
-    [SerializeField] private GameObject pauseMenuBackground;
-    [SerializeField] private GameObject pauseMenuGroup;
-    [SerializeField] private GameObject pauseMenuBackButton;
-    [SerializeField] private GameObject[] pauseMenuPages;
+    [Header("[PAUSE MENU]")]
+    [SerializeField] private Canvas pauseMenuBackground;
+    [SerializeField] private Canvas pauseMenuGroup;
+    [SerializeField] private Canvas pauseMenuBackButton;
+    [SerializeField] private Canvas[] pauseMenuPages;
 
     [Header("[CHARACTER DATA]")]
     public PlayerData currentPlayerData;
@@ -42,8 +39,7 @@ public class GameManager : MonoBehaviour
     public MemoryRecallData act1RecallData;
     public MemoryRecallData act2RecallData;
     public MemoryRecallData act3RecallData;
-    public RecallRevelationData currentRevelationData;
-    public RecallConclusionData currentConclusionData;
+    public MemoryRecallData currentRecallData;
 
     [Header("[GAME DATABASE]")]
     public GameState gameState;
@@ -53,7 +49,6 @@ public class GameManager : MonoBehaviour
     public Animator transitionAnimator;
     public string menuSceneName;
     public string introSceneName;
-    public string overworldSceneName;
     public string battleSceneName;
     public string memoryRecallSceneName;
     public string endSceneName;
@@ -73,15 +68,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public IEnumerator LoadScene(string sceneName, bool isMenuActive)
+    public IEnumerator LoadScene(string sceneName)
     {
         transitionAnimator.SetTrigger("Start");
 
         yield return new WaitForSeconds(1);
 
         SceneManager.LoadScene(sceneName);
-        mainMenuGroup.SetActive(isMenuActive);
-        mainMenuBackground.SetActive(isMenuActive);
 
         transitionAnimator.SetTrigger("End");
     }
@@ -91,13 +84,10 @@ public class GameManager : MonoBehaviour
     {
         if (!isPaused)
         {
-            if (gameState == GameState.GAME_OVERWORLD)
+            if (gameState == GameState.GAME_OVERWORLD && !DialogueManager.instance.isInDialogue)
             {
                 if (inputController.TryGetMovementAxisInput(out MovementAxisCommand movementAxisCommand))
                     playerController.ReadMovementAxisCommand(movementAxisCommand);
-
-                if (inputController.TryGetKeyboardInput(out KeyboardInputCommand keyboardInputCommand))
-                    playerController.ReadKeyboardInputCommand(keyboardInputCommand);
 
                 playerController.UpdateTransform();
             }
@@ -106,11 +96,8 @@ public class GameManager : MonoBehaviour
                 DialogueManager.instance.OnContinueButtonClick();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && gameState > GameState.GAME_MENU && gameState < GameState.GAME_ENDING)
-        {
-            isPaused = !isPaused;
-            OnTogglePause(isPaused);
-        }
+        if (inputController.TryGetKeyboardInput(out KeyboardInputCommand keyboardInputCommand))
+            playerController.ReadKeyboardInputCommand(keyboardInputCommand);
     }
 
     #region GENERAL
@@ -123,21 +110,30 @@ public class GameManager : MonoBehaviour
         SetFlag(GameFlags.Undefined);
     }
 
+    public void HandlePauseKeyPress()
+    {
+        if (gameState > GameState.GAME_INTRO && gameState < GameState.GAME_ENDING)
+        {
+            isPaused = !isPaused;
+            OnTogglePause(isPaused);
+        }
+    }
+
     void OnTogglePause(bool isPaused)
     {
         AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
 
-        if (isPaused) // if true
-            pauseMenuGroup.SetActive(isPaused);
-        else // if false
+        if (isPaused)
+            pauseMenuGroup.enabled = isPaused;
+        else
         {
             foreach (var page in pauseMenuPages) // coming back to menu from pausing the game
-                page.SetActive(isPaused);
+                page.enabled = isPaused;
 
-            pauseMenuBackButton.SetActive(isPaused);
+            pauseMenuBackButton.enabled = isPaused;
         }
 
-        pauseMenuBackground.SetActive(isPaused);
+        pauseMenuBackground.enabled = isPaused;
     }
 
     public void ChangeState(GameState state)
@@ -151,8 +147,7 @@ public class GameManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.GAME_MENU:
-                StartCoroutine(LoadScene(menuSceneName, true));
-                AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.menuBGM);
+                StartCoroutine(LoadScene(menuSceneName));
                 
                 playerController.gameObject.SetActive(false);
 
@@ -162,24 +157,32 @@ public class GameManager : MonoBehaviour
                 ResetFlags();
                 break;
             case GameState.GAME_INTRO:
-                StartCoroutine(LoadScene(introSceneName, false));
+                currentLevel = 1;
+                playerController.transform.position = playerSpawn.position;
+
+                finalBossData.enemyType = EnemyData.EnemyType.ENEMY_BOSS_IRIS_PHASE1;
+
+                StartCoroutine(LoadScene(introSceneName));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.introBGM);
 
                 ResetStates();
                 break;
             case GameState.GAME_OVERWORLD:
-                StartCoroutine(LoadScene(overworldSceneName, false));
+                StartCoroutine(LoadScene("Level" + currentLevel + "Scene"));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.gameBGM);
+                currentPlayerData.SetAnimatorController();
 
                 playerController.gameObject.SetActive(true);
                 break;
             case GameState.GAME_BATTLE:
-                StartCoroutine(LoadScene(battleSceneName, false));
+                StartCoroutine(LoadScene(battleSceneName));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.combatBGM);
                 currentPlayerData.SetAnimatorController();
+
+                playerController.gameObject.SetActive(false);
                 break;
             case GameState.GAME_RECALL:
-                StartCoroutine(LoadScene(memoryRecallSceneName, false));
+                StartCoroutine(LoadScene(memoryRecallSceneName));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.memoryRecallBGM);
                 break;
             case GameState.GAME_STORY:
@@ -187,7 +190,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GAME_ENDING:
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.menuBGM);
-                StartCoroutine(LoadScene(endSceneName, false));
+                StartCoroutine(LoadScene(endSceneName));
                 break;
         }
     }
@@ -195,42 +198,6 @@ public class GameManager : MonoBehaviour
     public void OnQuitButtonClick()
     {
         Application.Quit();
-    }
-
-    public void DestroyInstance()
-    {
-        if (instance != null)
-            Destroy(this);
-    }
-
-    #endregion
-
-    #region MAIN MENU
-
-    public void OnPlayButtonClick()
-    {
-        transitionAnimator.gameObject.SetActive(true);
-        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
-        ChangeState(GameState.GAME_INTRO);
-    }
-
-    public void ToggleMenuPages(int selectedIndex)
-    {
-        // toggle between pages on the main menu
-        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
-
-        if (selectedIndex == 0) // if the destination is the main menu, hide the back button
-            mainMenuBackButton.SetActive(false);
-        else
-            mainMenuBackButton.SetActive(true);
-
-        for (int i = 0; i < mainMenuPages.Length; i++)
-        {
-            if (i == selectedIndex)
-                mainMenuPages[i].SetActive(true);
-            else
-                mainMenuPages[i].SetActive(false);
-        }
     }
 
     #endregion
@@ -261,41 +228,17 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
 
         if (selectedIndex == 0 || selectedIndex == pauseMenuPages.Length - 1) // if the destination is the pause menu or the confirm page, hide the back button
-            pauseMenuBackButton.SetActive(false);
+            pauseMenuBackButton.enabled = false;
         else
-            pauseMenuBackButton.SetActive(true);
+            pauseMenuBackButton.enabled = true;
 
         for (int i = 0; i < pauseMenuPages.Length; i++)
         {
             if (i == selectedIndex)
-                pauseMenuPages[i].SetActive(true);
+                pauseMenuPages[i].enabled = true;
             else
-                pauseMenuPages[i].SetActive(false);
+                pauseMenuPages[i].enabled = false;
         }
-    }
-
-    #endregion
-
-    #region INTRO
-
-    public void SelectCharacter(int index) // 0 = masc, 1 = fem
-    {
-        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
-
-        currentPlayerData.selectedCharacter = (PlayerData.Character)index;
-
-        currentPlayerData.SetAnimatorController();
-        finalBossData.SetAnimatorController((int)currentPlayerData.selectedCharacter);
-    }
-
-    public void SetName(string name)
-    {
-        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
-
-        currentPlayerData.characterName = name;
-
-        playerController.transform.position = playerSpawn.position;
-        ChangeState(GameState.GAME_OVERWORLD);
     }
 
     #endregion
@@ -304,7 +247,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsFlagActivated(GameFlags flag)
     {
-        return activatedFlags != GameFlags.Undefined && GameManager.instance.activatedFlags.HasFlag(flag);
+        return activatedFlags != GameFlags.Undefined && instance.activatedFlags.HasFlag(flag);
     }
 
     public void SetFlag(GameFlags flag)
@@ -323,8 +266,7 @@ public class GameManager : MonoBehaviour
 
     public void SetRecallData(MemoryRecallData data)
     {
-        currentRevelationData = data.revelationDatas[0];
-        currentConclusionData = data.conclusionData;
+        currentRecallData = data;
     }
 
     #endregion

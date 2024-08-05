@@ -2,12 +2,18 @@ using UnityEngine;
 
 public class PlayerController : Character
 {
+    [SerializeField] private Canvas _promptCanvas;
     private float _horizontalAxis, _verticalAxis;
+
+    private void Start()
+    {
+        HandleFacingDirection(_renderer.defaultDirection);
+    }
 
     void OnEnable ()
     {
         _renderer.RenderCharacter(_data);
-        HandleFacingDirection(_renderer.defaultDirection);
+        CheckIfInteractableInRange();
     }
 
     public void ReadMovementAxisCommand(MovementAxisCommand command)
@@ -21,7 +27,11 @@ public class PlayerController : Character
         switch (command.Action)
         {
             case "Interact":
-                HandleInteraction();
+                if (!GameManager.instance.isPaused)
+                    HandleInteraction();
+                break;
+            case "Pause":
+                GameManager.instance.HandlePauseKeyPress();
                 break;
         }
     }
@@ -38,13 +48,12 @@ public class PlayerController : Character
                 HandleMovement(_horizontalAxis, _verticalAxis, CheckIfInOpponentView);
         }
 
+        CheckIfInteractableInRange();
         _renderer.SetBool("isWalking", _movement.isMoving);
     }
 
-    void HandleInteraction()
-    {
-        Debug.Log("Button pressed");
-
+    void CheckIfInteractableInRange()
+    {        
         // check where the player is facing
         var facingDir = new Vector3(_renderer.GetFloat("x"), _renderer.GetFloat("y"));
         var interactPos = transform.position + facingDir / 2;
@@ -52,7 +61,24 @@ public class PlayerController : Character
         var collider = Physics2D.OverlapCircle(interactPos, 0.1f, GameLayers.Instance.InteractableLayer);
 
         if (collider != null)
+            _promptCanvas.enabled = true;
+        else
+            _promptCanvas.enabled = false;
+    }
+
+    void HandleInteraction()
+    {
+        // check where the player is facing
+        var facingDir = new Vector3(_renderer.GetFloat("x"), _renderer.GetFloat("y"));
+        var interactPos = transform.position + facingDir / 2;
+
+        var collider = Physics2D.OverlapCircle(interactPos, 0.1f, GameLayers.Instance.InteractableLayer);
+
+        if (collider != null)
+        {
             collider.GetComponent<Interactable>()?.Interact(transform);
+            _promptCanvas.enabled = false;
+        }
     }
 
     void CheckIfInOpponentView()

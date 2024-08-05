@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   revelationDatas:
   - {fileID: 11400000, guid: 0b70a188adbcb474aa2fa2822dd13d63, type: 2}
+  - {fileID: 11400000, guid: 110409a1ec542674b9c1f9c993497eb2, type: 2}
+  - {fileID: 11400000, guid: 3f6342e2d29ec694f8a597f1c73eec73, type: 2}
+  - {fileID: 11400000, guid: 965d327cdf110484a974aabb4a065401, type: 2}
   conclusionData: {fileID: 11400000, guid: bdf419e63bb115143a9fbfd747104ea6, type: 2}

@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: Act3Conclusion
   m_EditorClassIdentifier: 
   conclusionStartOptions:
-  - Aster was
-  - I was
+  - YOU
+  - YOU
+  - YOU
+  - YOU
   conclusionMiddleOptions:
-  - trying to destroy what
-  - trying to salvage what
-  - running away from what
+  - CAN'T GIVE UP
+  - CAN'T GIVE UP
+  - CAN'T GIVE UP
   conclusionEndOptions:
-  - we had.
-  - we never had.
-  correctConclusion: Aster was trying to salvage what we never had.
+  - NOW
+  - NOW
+  - NOW
+  correctConclusion: YOU CAN'T GIVE UP NOW

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5402037a986282d4dbde96c084efeac3, type: 3}
+  m_Name: JacobData
+  m_EditorClassIdentifier: 
+  characterName: Jacob
+  characterAnimController: {fileID: 9100000, guid: 2981bac7ea78a164f8b8901a439e9e1d, type: 2}
+  currHealth: 125
+  maxHealth: 125
+  enemyType: 0
+  keyPointDeck: {fileID: 11400000, guid: 319bb0087aeb67f4688f8e62f81e4635, type: 2}
+  hasWonAgainst: 0

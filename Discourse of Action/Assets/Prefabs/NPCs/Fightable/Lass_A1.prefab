@@ -132,13 +132,16 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Lass
+        name: Marie
         icon: {fileID: 0}
-      line: Hey! You're about to enter combat with me.
+      line: Woah there! If you wanna get past that door, you'll have to get through
+        me first!
+  wonDialogue:
+    dialogueLines:
     - character:
-        name: Lass
+        name: Marie
         icon: {fileID: 0}
-      line: Time to give it everything you've got!
+      line: Well, a deal's a deal. Go on through!
 --- !u!61 &4995305132568269814
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -193,7 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1044844400541196295}
-  defaultDirection: 2
+  defaultDirection: 3
 --- !u!95 &1044844400541196295
 Animator:
   serializedVersion: 5

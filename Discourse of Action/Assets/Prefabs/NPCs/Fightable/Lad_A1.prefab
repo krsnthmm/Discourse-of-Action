@@ -132,13 +132,15 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Lad
+        name: Oliver
         icon: {fileID: 0}
-      line: Hey! You're about to enter combat with me.
+      line: You look like you'd be easy to fight!
+  wonDialogue:
+    dialogueLines:
     - character:
-        name: Lad
+        name: Oliver
         icon: {fileID: 0}
-      line: Time to give it everything you've got!
+      line: No... my prestige...
 --- !u!61 &4995305132568269814
 BoxCollider2D:
   m_ObjectHideFlags: 0

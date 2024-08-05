@@ -8,7 +8,5 @@ public class LevelManager : MonoBehaviour
     {
         if (_levelEnemyCounter.CheckForCondition())
             GameManager.instance.SetFlag(_levelEnemyCounter.requiredFlag);
-
-        Debug.Log(_levelEnemyCounter.CheckForCondition());
     }
 }

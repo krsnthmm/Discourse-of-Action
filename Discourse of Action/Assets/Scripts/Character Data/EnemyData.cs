@@ -8,7 +8,8 @@ public class EnemyData : CharacterData
         ENEMY_NORMAL = 0,
         ENEMY_BOSS_ASTER,
         ENEMY_BOSS_PRIMROSE,
-        ENEMY_BOSS_IRIS
+        ENEMY_BOSS_IRIS_PHASE1,
+        ENEMY_BOSS_IRIS_PHASE2
     }
 
     public EnemyType enemyType;

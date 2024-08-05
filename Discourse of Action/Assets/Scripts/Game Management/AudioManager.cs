@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -8,9 +7,6 @@ public class AudioManager : MonoBehaviour
 
     [Header("[VOLUME MANAGEMENT]")]
     public AudioMixer mixer;
-    public Slider masterSlider;
-    public Slider BGMSlider;
-    public Slider SFXSlider;
 
     [Header("[AUDIO SOURCES]")]
     public AudioSource BGMSource;
@@ -26,6 +22,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("[JINGLES]")]
     public AudioClip combatWonJingle;
+    public AudioClip combatLostJingle;
     public AudioClip memoryRecallCompleteJingle;
 
     [Header("[SOUND EFFECTS]")]
@@ -36,17 +33,12 @@ public class AudioManager : MonoBehaviour
     public AudioClip normalEffectiveSFX;
     public AudioClip notEffectiveSFX;
     
-    void Start()
+    void Awake()
     {
         if (instance == null)
         {
             instance = this;
 
-            masterSlider.value = PlayerPrefsManager.Load("MasterVolume");
-            BGMSlider.value = PlayerPrefsManager.Load("BGMVolume");
-            SFXSlider.value = PlayerPrefsManager.Load("SFXVolume");
-
-            PlayClip(BGMSource, menuBGM);
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -59,26 +51,13 @@ public class AudioManager : MonoBehaviour
         audioSrc.Play();
     }
 
-    public void StopPlayback(AudioSource audioSrc)
+    public void StopClip(AudioSource audioSrc)
     {
         audioSrc.Stop();
     }
 
-    public void SetMasterVolume()
+    public void StopPlayback(AudioSource audioSrc)
     {
-        mixer.SetFloat("MasterVolume", masterSlider.value);
-        PlayerPrefsManager.Save("MasterVolume", masterSlider.value);
-    }
-
-    public void SetBGMVolume()
-    {
-        mixer.SetFloat("BGMVolume", BGMSlider.value);
-        PlayerPrefsManager.Save("BGMVolume", BGMSlider.value);
-    }
-
-    public void SetSFXVolume()
-    {
-        mixer.SetFloat("SFXVolume", SFXSlider.value);
-        PlayerPrefsManager.Save("SFXVolume", SFXSlider.value);
+        audioSrc.Stop();
     }
 }

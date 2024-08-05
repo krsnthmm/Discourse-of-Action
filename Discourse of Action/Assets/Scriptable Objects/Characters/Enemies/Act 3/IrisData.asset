@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: IrisData
   m_EditorClassIdentifier: 
   characterName: IRIS
-  characterAnimController: {fileID: 9100000, guid: 47967996e804ff54c8b2a896921e672d, type: 2}
-  currHealth: 0
+  characterAnimController: {fileID: 9100000, guid: b0dca3b94ddc90643ba8df0c352c9cdd, type: 2}
+  currHealth: 185
   maxHealth: 200
-  enemyType: 0
+  enemyType: 3
   keyPointDeck: {fileID: 11400000, guid: 5bce97fd9c4dcc741a9eabb092c32d87, type: 2}
+  hasWonAgainst: 0
   irisAnimControllers:
   - {fileID: 9100000, guid: 47967996e804ff54c8b2a896921e672d, type: 2}
   - {fileID: 9100000, guid: b0dca3b94ddc90643ba8df0c352c9cdd, type: 2}

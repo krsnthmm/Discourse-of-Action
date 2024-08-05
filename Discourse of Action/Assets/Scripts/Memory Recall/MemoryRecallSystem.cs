@@ -12,12 +12,12 @@ public enum RecallStates
 public class MemoryRecallSystem : MonoBehaviour
 {
     private MemoryRecallUI _recallUI;
+    [SerializeField] private MemoryRecallData _recallData;
     [SerializeField] private RecallStates _recallState;
 
     [SerializeField] private LineController _lineController;
 
-    private RecallRevelationData _recallRevelationData;
-    private RecallConclusionData _recallConclusionData;
+    private int _revelationIndex;
 
     [Header("[CONCLUSION]")]
     private int _startIdx, _midIdx, _endIdx;
@@ -26,8 +26,7 @@ public class MemoryRecallSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _recallRevelationData = GameManager.instance.currentRevelationData;
-        _recallConclusionData = GameManager.instance.currentConclusionData;
+        _recallData = GameManager.instance.currentRecallData;
 
         _recallUI = GetComponent<MemoryRecallUI>();
         ChangeState(RecallStates.RECALL_REVELATION);
@@ -41,12 +40,31 @@ public class MemoryRecallSystem : MonoBehaviour
             _lineController.UpdateLine();
 
             if (_lineController.isMatched)
-                ChangeState(RecallStates.RECALL_CONCLUSION);
+            {
+                _lineController.isMatched = false;
+                _revelationIndex++;
+
+                if (_revelationIndex >= _recallData.revelationDatas.Length)
+                    ChangeState(RecallStates.RECALL_CONCLUSION);
+                else
+                    ChangeState(RecallStates.RECALL_REVELATION);
+            }
         }
     }
 
     public void ChangeState(RecallStates state)
     {
+        if (state == RecallStates.RECALL_REVELATION)
+        {
+            if (!_recallData.revelationDatas[_revelationIndex].isEverythingCorrect)
+            {
+                _lineController.isEverythingCorrect = false;
+                _lineController.SetCorrectNodeID(_recallData.revelationDatas[_revelationIndex].correctInference);
+            }
+            else
+                _lineController.isEverythingCorrect = true;
+        }
+
         _recallState = state;
         SetUI(_recallState);
     }
@@ -62,14 +80,14 @@ public class MemoryRecallSystem : MonoBehaviour
         switch (state)
         {
             case RecallStates.RECALL_REVELATION:
-                _recallUI.memoryPieceTextBox.text = _recallRevelationData.memoryPieceText;
+                _recallUI.memoryPieceTextBox.text = _recallData.revelationDatas[_revelationIndex].memoryPieceText;
                 for (int i = 0; i < _recallUI.inferenceTexts.Length; i++)
-                    _recallUI.inferenceTexts[i].text = _recallRevelationData.inferenceTexts[i];
+                    _recallUI.inferenceTexts[i].text = _recallData.revelationDatas[_revelationIndex].inferenceTexts[i];
                 break;
             case RecallStates.RECALL_CONCLUSION:
-                _recallUI.conclusionTexts[0].text = _recallConclusionData.conclusionStartOptions[Random.Range(0, _recallConclusionData.conclusionStartOptions.Length)];
-                _recallUI.conclusionTexts[1].text = _recallConclusionData.conclusionMiddleOptions[Random.Range(0, _recallConclusionData.conclusionMiddleOptions.Length)];
-                _recallUI.conclusionTexts[2].text = _recallConclusionData.conclusionEndOptions[Random.Range(0, _recallConclusionData.conclusionEndOptions.Length)];
+                _recallUI.conclusionTexts[0].text = _recallData.conclusionData.conclusionStartOptions[Random.Range(0, _recallData.conclusionData.conclusionStartOptions.Length)];
+                _recallUI.conclusionTexts[1].text = _recallData.conclusionData.conclusionMiddleOptions[Random.Range(0, _recallData.conclusionData.conclusionMiddleOptions.Length)];
+                _recallUI.conclusionTexts[2].text = _recallData.conclusionData.conclusionEndOptions[Random.Range(0, _recallData.conclusionData.conclusionEndOptions.Length)];
                 break;
         }
     }
@@ -77,6 +95,8 @@ public class MemoryRecallSystem : MonoBehaviour
     #region CONCLUSION PHASE
     public void OnConfirmButton()
     {
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
         if (CheckConclusion())
             StartCoroutine(CompleteStage());
         else
@@ -91,31 +111,33 @@ public class MemoryRecallSystem : MonoBehaviour
     {
         string text = "";
 
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
         switch (index)
         {
             case 0:
-                if (_startIdx < _recallConclusionData.conclusionStartOptions.Length - 1)
+                if (_startIdx < _recallData.conclusionData.conclusionStartOptions.Length - 1)
                     _startIdx++;
                 else
                     _startIdx = 0;
 
-                text = _recallConclusionData.conclusionStartOptions[_startIdx];
+                text = _recallData.conclusionData.conclusionStartOptions[_startIdx];
                 break;
             case 1:
-                if (_midIdx < _recallConclusionData.conclusionMiddleOptions.Length - 1)
+                if (_midIdx < _recallData.conclusionData.conclusionMiddleOptions.Length - 1)
                     _midIdx++;
                 else
                     _midIdx = 0;
 
-                text = _recallConclusionData.conclusionMiddleOptions[_midIdx];
+                text = _recallData.conclusionData.conclusionMiddleOptions[_midIdx];
                 break;
             case 2:
-                if (_endIdx < _recallConclusionData.conclusionEndOptions.Length - 1)
+                if (_endIdx < _recallData.conclusionData.conclusionEndOptions.Length - 1)
                     _endIdx++;
                 else
                     _endIdx = 0;
 
-                text = _recallConclusionData.conclusionEndOptions[_endIdx];
+                text = _recallData.conclusionData.conclusionEndOptions[_endIdx];
                 break;
         }
 
@@ -126,31 +148,33 @@ public class MemoryRecallSystem : MonoBehaviour
     {
         string text = "";
 
+        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+
         switch (index)
         {
             case 0:
                 if (_startIdx > 0)
                     _startIdx--;
                 else
-                    _startIdx = _recallConclusionData.conclusionStartOptions.Length - 1;
+                    _startIdx = _recallData.conclusionData.conclusionStartOptions.Length - 1;
 
-                text = _recallConclusionData.conclusionStartOptions[_startIdx];
+                text = _recallData.conclusionData.conclusionStartOptions[_startIdx];
                 break;
             case 1:
                 if (_midIdx > 0)
                     _midIdx--;
                 else
-                    _midIdx = _recallConclusionData.conclusionMiddleOptions.Length - 1;
+                    _midIdx = _recallData.conclusionData.conclusionMiddleOptions.Length - 1;
 
-                text = _recallConclusionData.conclusionMiddleOptions[_midIdx];
+                text = _recallData.conclusionData.conclusionMiddleOptions[_midIdx];
                 break;
             case 2:
                 if (_endIdx > 0)
                     _endIdx--;
                 else
-                    _endIdx = _recallConclusionData.conclusionEndOptions.Length - 1;
+                    _endIdx = _recallData.conclusionData.conclusionEndOptions.Length - 1;
 
-                text = _recallConclusionData.conclusionEndOptions[_endIdx];
+                text = _recallData.conclusionData.conclusionEndOptions[_endIdx];
                 break;
         }
 
@@ -161,7 +185,7 @@ public class MemoryRecallSystem : MonoBehaviour
     {
         playerConclusion = _recallUI.conclusionTexts[0].text + " " + _recallUI.conclusionTexts[1].text + " " + _recallUI.conclusionTexts[2].text;
 
-        if (playerConclusion == _recallConclusionData.correctConclusion)
+        if (playerConclusion == _recallData.conclusionData.correctConclusion)
             return true;
         else
             return false;
@@ -172,10 +196,22 @@ public class MemoryRecallSystem : MonoBehaviour
         ChangeState(RecallStates.RECALL_COMPLETE);
 
         AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.memoryRecallCompleteJingle);
+        GameManager.instance.currentLevel++;
 
         yield return new WaitForSeconds(AudioManager.instance.memoryRecallCompleteJingle.length);
 
-        GameManager.instance.ChangeState(GameState.GAME_ENDING); // for beta purposes
+        AudioManager.instance.StopClip(AudioManager.instance.BGMSource);
+
+        if (GameManager.instance.enemyToBattle.enemyType != EnemyData.EnemyType.ENEMY_BOSS_IRIS_PHASE1)
+        {
+            GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
+            GameManager.instance.playerController.transform.position = GameManager.instance.playerSpawn.position;
+        }
+        else
+        {
+            GameManager.instance.enemyToBattle.enemyType = EnemyData.EnemyType.ENEMY_BOSS_IRIS_PHASE2;
+            GameManager.instance.ChangeState(GameState.GAME_BATTLE);
+        }
     }
     #endregion
 }

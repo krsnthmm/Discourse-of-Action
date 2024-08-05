@@ -179,25 +179,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: 47d71ee73886c9f4cb46f75c2bfa2c2a, type: 2}
   requiredFlag: 1
+  flagToChange: 2
+  wonDialogue:
+    dialogueLines:
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: So that's how it is, then.
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: ...I wish you all the best.
   trueDialogue:
     dialogueLines:
     - character:
         name: Aster
         icon: {fileID: 0}
-      line: uwu!!
+      line: You're here.
     - character:
-        name: ' '
+        name: Aster
         icon: {fileID: 0}
-      line: Looks like Aster's challenging you to a fight!
+      line: It's been a while, hasn't it? You still look the same as ever.
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: ...
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: Oh.
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: You... don't know who I am? Not at all?
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: ...I see.
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: That-- that doesn't matter. Not in the slightest.
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: All I have to do is jog your memory a little.
   trueDialogueType: 1
   falseDialogue:
     dialogueLines:
     - character:
         name: Aster
         icon: {fileID: 0}
-      line: umu...
+      line: Huh... You're here, but I don't really see you.
     - character:
-        name: ' '
+        name: Aster
         icon: {fileID: 0}
-      line: Looks like Aster doesn't think you're ready...
+      line: Go have some... friendly chats with the others first.
+    - character:
+        name: Aster
+        icon: {fileID: 0}
+      line: Maybe then I'll find what I'm looking for.
   falseDialogueType: 0

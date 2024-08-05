@@ -28,10 +28,13 @@ public class BattleSystem : MonoBehaviour
     [Header("[BATTLE SYSTEM]")]
     [SerializeField] private CardManager _cardManager;
     [SerializeField] private KeyPointManager _keyPointManager;
+    [SerializeField] private AudioSource _combatSFXSource;
 
     private Card _selectedCard;
     public KeyPoint _targetKeyPoint;
     private BattleState _state;
+
+    private int _multiplier = 1;
 
     void Start()
     {
@@ -44,6 +47,9 @@ public class BattleSystem : MonoBehaviour
         _keyPointManager.deck = GameManager.instance.enemyToBattle.keyPointDeck;
 
         SetupBattle();
+
+        if (GameManager.instance.enemyToBattle.enemyType == EnemyData.EnemyType.ENEMY_BOSS_IRIS_PHASE2)
+            _multiplier = 2;
     }
 
     void SetupBattle()
@@ -103,21 +109,21 @@ public class BattleSystem : MonoBehaviour
         switch(CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType))
         {
             case 1.5f:
-                AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.superEffectiveSFX);
+                AudioManager.instance.PlayClip(_combatSFXSource, AudioManager.instance.superEffectiveSFX);
                 break;
             case 1f:
-                AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.normalEffectiveSFX);
+                AudioManager.instance.PlayClip(_combatSFXSource, AudioManager.instance.normalEffectiveSFX);
                 break;
             case 0.5f:
-                AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.notEffectiveSFX);
+                AudioManager.instance.PlayClip(_combatSFXSource, AudioManager.instance.notEffectiveSFX);
                 break;
         }
 
-        _enemyUnit.characterData.TakeDamage((int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType)));
+        _enemyUnit.characterData.TakeDamage((int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType) * _multiplier));
         _enemyHUD.UpdateHealthValue();
 
         _enemyUnit.characterRenderer.animator.SetInteger("Hurt", 1);
-        _enemyHUD.UpdateDamageText("" + (int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType)));
+        _enemyHUD.UpdateDamageText("" + (int)(damage * CheckTypeEffectiveness(_selectedCard.cardData.cardType, _targetKeyPoint.keyPointData.keyPointType) * _multiplier));
 
         yield return new WaitForSeconds(0.1f);
 
@@ -148,13 +154,27 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.normalEffectiveSFX);
+        if (GameManager.instance.enemyToBattle.enemyType == EnemyData.EnemyType.ENEMY_BOSS_IRIS_PHASE1)
+        {
+            AudioManager.instance.PlayClip(_combatSFXSource, AudioManager.instance.superEffectiveSFX);
 
-        _playerUnit.characterData.TakeDamage(5);
-        _playerHUD.UpdateHealthValue();
+            _playerUnit.characterData.TakeDamage(999);
 
-        _playerUnit.characterRenderer.animator.SetInteger("Hurt", 1);
-        _playerHUD.UpdateDamageText("" + 5);
+            _playerHUD.UpdateHealthValue();
+
+            _playerUnit.characterRenderer.animator.SetInteger("Hurt", 1);
+            _playerHUD.UpdateDamageText("!!!");
+        }
+        else
+        {
+            AudioManager.instance.PlayClip(_combatSFXSource, AudioManager.instance.normalEffectiveSFX);
+
+            _playerUnit.characterData.TakeDamage(5);
+            _playerHUD.UpdateHealthValue();
+
+            _playerUnit.characterRenderer.animator.SetInteger("Hurt", 1);
+            _playerHUD.UpdateDamageText("" + 5);
+        }
 
         yield return new WaitForSeconds(0.1f);
 
@@ -179,35 +199,56 @@ public class BattleSystem : MonoBehaviour
 
             GameManager.instance.enemyToBattle.hasWonAgainst = true;
 
-            yield return new WaitForSeconds(AudioManager.instance.combatWonJingle.length + 1);
+            yield return new WaitForSeconds(AudioManager.instance.combatWonJingle.length);
 
-            if (GameManager.instance.enemyToBattle.enemyType != EnemyData.EnemyType.ENEMY_NORMAL)
+            AudioManager.instance.StopClip(AudioManager.instance.BGMSource);
+
+            yield return new WaitForSeconds(1);
+
+            switch (GameManager.instance.enemyToBattle.enemyType)
             {
-                switch (GameManager.instance.enemyToBattle.enemyType)
-                {
-                    case EnemyData.EnemyType.ENEMY_BOSS_ASTER:
-                        GameManager.instance.SetRecallData(GameManager.instance.act1RecallData);
-                        break;
-                    case EnemyData.EnemyType.ENEMY_BOSS_PRIMROSE:
-                        GameManager.instance.SetRecallData(GameManager.instance.act2RecallData);
-                        break;
-                    case EnemyData.EnemyType.ENEMY_BOSS_IRIS:
-                        GameManager.instance.SetRecallData(GameManager.instance.act3RecallData);
-                        break;
-                }
-
-                GameManager.instance.ChangeState(GameState.GAME_RECALL);
+                case EnemyData.EnemyType.ENEMY_BOSS_ASTER:
+                    GameManager.instance.SetRecallData(GameManager.instance.act1RecallData);
+                    GameManager.instance.ChangeState(GameState.GAME_RECALL);
+                    break;
+                case EnemyData.EnemyType.ENEMY_BOSS_PRIMROSE:
+                    GameManager.instance.SetRecallData(GameManager.instance.act2RecallData);
+                    GameManager.instance.ChangeState(GameState.GAME_RECALL);
+                    break;
+                case EnemyData.EnemyType.ENEMY_BOSS_IRIS_PHASE2:
+                    GameManager.instance.ChangeState(GameState.GAME_ENDING);
+                    break;
+                default:
+                    GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
+                    break;
             }
-            else
-                GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
         }
         else if (_state == BattleState.LOST)
         {
             _turnText.text = "DEFEAT!";
+            AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.combatLostJingle);
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(AudioManager.instance.combatLostJingle.length);
 
-            GameManager.instance.ChangeState(GameState.GAME_OVERWORLD);
+            AudioManager.instance.StopClip(AudioManager.instance.BGMSource);
+
+            yield return new WaitForSeconds(1);
+
+            if (GameManager.instance.enemyToBattle.enemyType == EnemyData.EnemyType.ENEMY_BOSS_IRIS_PHASE1)
+            {
+                _turnText.text = "";
+
+                yield return new WaitForSeconds(1);
+
+                _turnText.text = "...Not yet!";
+
+                yield return new WaitForSeconds(1);
+
+                GameManager.instance.SetRecallData(GameManager.instance.act3RecallData);
+                GameManager.instance.ChangeState(GameState.GAME_RECALL);
+            }
+            else
+                GameManager.instance.ChangeState(GameState.GAME_ENDING);
         }
     }
 

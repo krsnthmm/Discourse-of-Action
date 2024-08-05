@@ -52,16 +52,9 @@ public class InputController : MonoBehaviour
         keyboardInputCommand = null;
         if (Input.GetKeyDown(KeyCode.F))
             keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Interact");
-        else if (Input.GetKeyDown(KeyCode.LeftControl))
-            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Crouch");
-        else if (Input.GetKeyDown(KeyCode.Space))
-            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Jump");
-        else if (Input.GetKeyDown(KeyCode.Alpha1))
-            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Switch_0");
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Switch_M");
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Switch_R");
+        else if (Input.GetKeyDown(KeyCode.Escape))
+            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Pause");
+
         return keyboardInputCommand != null;
     }
 }
