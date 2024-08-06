@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Act3Conclusion
   m_EditorClassIdentifier: 
   conclusionStartOptions:
-  - YOU
-  - YOU
-  - YOU
-  - YOU
+  - I WON'T
+  - I WON'T
+  - I WON'T
+  - I WON'T
   conclusionMiddleOptions:
-  - CAN'T GIVE UP
-  - CAN'T GIVE UP
-  - CAN'T GIVE UP
+  - LET MYSELF BE STOLEN AWAY
+  - LET MYSELF BE STOLEN AWAY
+  - LET MYSELF BE STOLEN AWAY
   conclusionEndOptions:
-  - NOW
-  - NOW
-  - NOW
-  correctConclusion: YOU CAN'T GIVE UP NOW
+  - AGAIN
+  - AGAIN
+  - AGAIN
+  correctConclusion: I WON'T LET MYSELF BE STOLEN AWAY AGAIN

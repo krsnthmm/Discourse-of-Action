@@ -101,7 +101,7 @@ public class MemoryRecallSystem : MonoBehaviour
             StartCoroutine(CompleteStage());
         else
         {
-            // instead of using SetUI, which randomises the text, we want to keep the text the same
+            // instead of using SetUI, which randomises the text options with SetText, we want to keep the text the same
             // hence we'll use _recallUI.ToggleUI instead.
             StartCoroutine(_recallUI.ToggleUI(RecallStates.RECALL_CONCLUSION));
         }

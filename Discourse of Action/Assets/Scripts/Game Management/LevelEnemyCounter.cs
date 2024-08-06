@@ -20,7 +20,6 @@ public class LevelEnemyCounter : MonoBehaviour
             }
             else
             {
-                Debug.Log("aaa");
                 enemiesDefeated = true;
                 continue;
             }

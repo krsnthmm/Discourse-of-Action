@@ -410,7 +410,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 32
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1142,10 +1142,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc65187242f2204598798da90f6e80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nodeID: 1
   isDragging: 0
   endPoint: {x: 0, y: 0, z: 0}
   isMatched: 0
+  isEverythingCorrect: 0
 --- !u!120 &845416552
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -2011,7 +2011,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 32
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2384,6 +2384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd22e21b5e654ff40b7b8be82c2eebd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _recallData: {fileID: 0}
   _recallState: 0
   _lineController: {fileID: 845416551}
 --- !u!4 &1374700351
@@ -2577,7 +2578,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 32
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3461,7 +3462,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 16
+  m_HorizontalAlignment: 32
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

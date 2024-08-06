@@ -10,8 +10,7 @@ public enum GameState
     GAME_BATTLE,
     GAME_RECALL,
     GAME_CUTSCENE,
-    GAME_STORY,
-    GAME_ENDING,
+    GAME_ENDING
 }
 
 public class GameManager : MonoBehaviour
@@ -21,6 +20,7 @@ public class GameManager : MonoBehaviour
     [Header("[GAME COMPONENTS]")]
     public int currentLevel;
     public bool isPaused;
+    public bool hasWon;
     public Transform playerSpawn;
     public PlayerController playerController;
     public InputController inputController;
@@ -91,9 +91,6 @@ public class GameManager : MonoBehaviour
 
                 playerController.UpdateTransform();
             }
-
-            if (DialogueManager.instance != null && DialogueManager.instance.isInDialogue && Input.GetKeyDown(KeyCode.Space))
-                DialogueManager.instance.OnContinueButtonClick();
         }
 
         if (inputController.TryGetKeyboardInput(out KeyboardInputCommand keyboardInputCommand))
@@ -117,6 +114,24 @@ public class GameManager : MonoBehaviour
             isPaused = !isPaused;
             OnTogglePause(isPaused);
         }
+    }
+
+    public void HandleLevelKeyPress(int level)
+    {
+        if (gameState == GameState.GAME_INTRO)
+            currentLevel = level;
+    }
+
+    public void HandleDialogueKeyPress()
+    {
+        if (!isPaused && DialogueManager.instance != null && DialogueManager.instance.isInDialogue)
+            DialogueManager.instance.OnContinueButtonClick();
+    }
+
+    public void HandleBattleKeyPress()
+    {
+        if (!isPaused && gameState == GameState.GAME_BATTLE)
+            enemyToBattle.currHealth = 1;
     }
 
     void OnTogglePause(bool isPaused)
@@ -157,6 +172,7 @@ public class GameManager : MonoBehaviour
                 ResetFlags();
                 break;
             case GameState.GAME_INTRO:
+                hasWon = false;
                 currentLevel = 1;
                 playerController.transform.position = playerSpawn.position;
 
@@ -184,9 +200,6 @@ public class GameManager : MonoBehaviour
             case GameState.GAME_RECALL:
                 StartCoroutine(LoadScene(memoryRecallSceneName));
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.memoryRecallBGM);
-                break;
-            case GameState.GAME_STORY:
-                // TODO: dialogue stuff i guess
                 break;
             case GameState.GAME_ENDING:
                 AudioManager.instance.PlayClip(AudioManager.instance.BGMSource, AudioManager.instance.menuBGM);

@@ -5,14 +5,11 @@ public class PlayerController : Character
     [SerializeField] private Canvas _promptCanvas;
     private float _horizontalAxis, _verticalAxis;
 
-    private void Start()
-    {
-        HandleFacingDirection(_renderer.defaultDirection);
-    }
-
     void OnEnable ()
     {
         _renderer.RenderCharacter(_data);
+        HandleFacingDirection(_renderer.defaultDirection);
+
         CheckIfInteractableInRange();
     }
 
@@ -28,10 +25,27 @@ public class PlayerController : Character
         {
             case "Interact":
                 if (!GameManager.instance.isPaused)
-                    HandleInteraction();
+                    HandleInteractKeyPress();
                 break;
             case "Pause":
                 GameManager.instance.HandlePauseKeyPress();
+                break;
+            case "Advance Dialogue":
+                GameManager.instance.HandleDialogueKeyPress();
+                break;
+            // CHEATS: start at a specific level
+            case "Level 1":
+                GameManager.instance.HandleLevelKeyPress(1);
+                break;
+            case "Level 2":
+                GameManager.instance.HandleLevelKeyPress(2);
+                break;
+            case "Level 3":
+                GameManager.instance.HandleLevelKeyPress(3);
+                break;
+            // CHEATS: advance battle
+            case "Advance Battle":
+                GameManager.instance.HandleBattleKeyPress();
                 break;
         }
     }
@@ -66,7 +80,7 @@ public class PlayerController : Character
             _promptCanvas.enabled = false;
     }
 
-    void HandleInteraction()
+    void HandleInteractKeyPress()
     {
         // check where the player is facing
         var facingDir = new Vector3(_renderer.GetFloat("x"), _renderer.GetFloat("y"));

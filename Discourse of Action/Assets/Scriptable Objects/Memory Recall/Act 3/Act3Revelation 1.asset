@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc4321aec7c61c40b07a3e41a7d303f, type: 3}
   m_Name: Act3Revelation 1
   m_EditorClassIdentifier: 
-  memoryPieceText: KEEP GOING
+  memoryPieceText: YOU MUST KEEP GOING
   inferenceTexts:
-  - KEEP GOING
+  - KEEP GOING.
   - '%#$$@%#^'
   - '%&^#&$&#*'
+  isEverythingCorrect: 0
   correctInference: 0

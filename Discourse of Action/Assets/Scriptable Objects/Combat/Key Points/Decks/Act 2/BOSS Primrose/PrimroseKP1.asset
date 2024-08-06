@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5788d2b455a5342488aebddd397eb2c4, type: 3}
   m_Name: PrimroseKP1
   m_EditorClassIdentifier: 
-  keyPointType: 0
-  keyPointText: heyyyy *leans on really expensive car*
+  keyPointType: 3
+  keyPointText: You left me behind, and you come back here expecting me to be nice?
+    Really?

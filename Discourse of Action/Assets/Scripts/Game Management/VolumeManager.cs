@@ -10,10 +10,9 @@ public class VolumeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        masterSlider.value = PlayerPrefsManager.Load("MasterVolume");
-        BGMSlider.value = PlayerPrefsManager.Load("BGMVolume");
-        SFXSlider.value = PlayerPrefsManager.Load("SFXVolume");
+        LoadPlayerPrefs();
     }
+
     public void SetMasterVolume()
     {
         AudioManager.instance.mixer.SetFloat("MasterVolume", masterSlider.value);
@@ -35,5 +34,12 @@ public class VolumeManager : MonoBehaviour
     public void OnSliderUp()
     {
         AudioManager.instance.PlayClip(AudioManager.instance.SFXSource, AudioManager.instance.buttonSFX);
+    }
+
+    public void LoadPlayerPrefs()
+    {
+        masterSlider.value = PlayerPrefsManager.Load("MasterVolume");
+        BGMSlider.value = PlayerPrefsManager.Load("BGMVolume");
+        SFXSlider.value = PlayerPrefsManager.Load("SFXVolume");
     }
 }

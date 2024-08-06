@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc4321aec7c61c40b07a3e41a7d303f, type: 3}
   m_Name: Act3Revelation 2
   m_EditorClassIdentifier: 
-  memoryPieceText: DON'T LET THEM TAKE YOU AWAY
+  memoryPieceText: DON'T LET THEM TAKE YOU AWAY FOR GOOD
   inferenceTexts:
   - '!&^$&#&*'
   - (&$*#&*($
-  - HOLD ON
+  - HOLD ON.
+  isEverythingCorrect: 0
   correctInference: 2

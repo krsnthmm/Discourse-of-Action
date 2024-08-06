@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc4321aec7c61c40b07a3e41a7d303f, type: 3}
+  m_Name: Act2Revelation1
+  m_EditorClassIdentifier: 
+  memoryPieceText: Why is everyone so... hostile?
+  inferenceTexts:
+  - They just want a reason to dislike me.
+  - I've done something to hurt them in the past.
+  - Some kind of petty jealousy?
+  isEverythingCorrect: 0
+  correctInference: 1

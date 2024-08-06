@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   memoryPieceText: WHO ARE YOU?
   inferenceTexts:
-  - A SH3LL
-  - I AM ME
-  - A HU$K
+  - a shell.
+  - I AM ME.
+  - a husk.
+  isEverythingCorrect: 0
   correctInference: 1

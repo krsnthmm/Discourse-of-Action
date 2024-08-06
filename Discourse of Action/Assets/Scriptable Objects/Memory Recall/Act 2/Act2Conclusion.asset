@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Act2Conclusion
   m_EditorClassIdentifier: 
   conclusionStartOptions:
-  - Aster was
-  - I was
+  - Primrose
+  - I
   conclusionMiddleOptions:
-  - trying to destroy what
-  - trying to salvage what
-  - running away from what
+  - caused a misunderstanding between
+  - betrayed and broke the trust of
+  - openly expressed disdain for
   conclusionEndOptions:
-  - we had.
-  - we never had.
-  correctConclusion: Aster was trying to salvage what we never had.
+  - us.
+  - Primrose.
+  - myself.
+  correctConclusion: I betrayed and broke the trust of Primrose.

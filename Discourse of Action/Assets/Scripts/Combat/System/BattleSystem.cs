@@ -216,6 +216,7 @@ public class BattleSystem : MonoBehaviour
                     GameManager.instance.ChangeState(GameState.GAME_RECALL);
                     break;
                 case EnemyData.EnemyType.ENEMY_BOSS_IRIS_PHASE2:
+                    GameManager.instance.hasWon = true;
                     GameManager.instance.ChangeState(GameState.GAME_ENDING);
                     break;
                 default:
@@ -274,15 +275,30 @@ public class BattleSystem : MonoBehaviour
             { ElementTypes.TYPE_INSTINCT, new Dictionary<ElementTypes, float>() },
         };
 
-        // if card trumps key point, damage dealt is 1.5x normal damage
-        multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_EMOTION] = 1.5f;
-        multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_INSTINCT] = 1.5f;
-        multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_REASONING] = 1.5f;
+        if (GameManager.instance.enemyToBattle.enemyType != EnemyData.EnemyType.ENEMY_BOSS_PRIMROSE)
+        {
+            // if card trumps key point, damage dealt is 1.5x normal damage
+            multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_EMOTION] = 1.5f;
+            multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_INSTINCT] = 1.5f;
+            multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_REASONING] = 1.5f;
 
-        // if card is not very effective against key point, damage dealt is 0.5x normal damage
-        multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_INSTINCT] = 0.5f;
-        multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_REASONING] = 0.5f;
-        multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_EMOTION] = 0.5f;
+            // if card is not very effective against key point, damage dealt is 0.5x normal damage
+            multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_INSTINCT] = 0.5f;
+            multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_REASONING] = 0.5f;
+            multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_EMOTION] = 0.5f;
+        }
+        else
+        {
+            // specifically for PRIMROSE, the type effectiveness is reversed
+
+            multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_EMOTION] = 0.5f;
+            multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_INSTINCT] = 0.5f;
+            multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_REASONING] = 0.5f;
+
+            multiplier[ElementTypes.TYPE_REASONING][ElementTypes.TYPE_INSTINCT] = 1.5f;
+            multiplier[ElementTypes.TYPE_EMOTION][ElementTypes.TYPE_REASONING] = 1.5f;
+            multiplier[ElementTypes.TYPE_INSTINCT][ElementTypes.TYPE_EMOTION] = 1.5f;
+        }
 
         foreach (ElementTypes offensive in multiplier.Keys)
         {

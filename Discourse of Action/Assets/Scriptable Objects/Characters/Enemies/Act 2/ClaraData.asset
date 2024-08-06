@@ -17,5 +17,5 @@ MonoBehaviour:
   currHealth: 125
   maxHealth: 125
   enemyType: 0
-  keyPointDeck: {fileID: 11400000, guid: 319bb0087aeb67f4688f8e62f81e4635, type: 2}
+  keyPointDeck: {fileID: 11400000, guid: 9628a46859f815a428b41c91912bfea4, type: 2}
   hasWonAgainst: 0

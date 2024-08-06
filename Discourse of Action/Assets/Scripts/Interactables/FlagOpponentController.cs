@@ -3,7 +3,6 @@ using UnityEngine;
 public class FlagOpponentController : Character, Interactable
 {
     public GameFlags requiredFlag;
-    public GameFlags flagToChange;
 
     public Dialogue wonDialogue;
 
@@ -39,9 +38,6 @@ public class FlagOpponentController : Character, Interactable
 
         if (selectedDialogueType == DialogueTypes.DIALOGUE_COMBAT)
             GameManager.instance.enemyToBattle = (EnemyData)_data;
-
-        if (flagToChange != GameFlags.Undefined)
-            GameManager.instance.SetFlag(flagToChange);
     }
 
     public void ShowWonDialogue()

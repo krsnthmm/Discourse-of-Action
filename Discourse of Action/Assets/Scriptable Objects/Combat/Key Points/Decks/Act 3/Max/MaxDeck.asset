@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6007f7c064d7b684eaaaf1fa6dea6668, type: 3}
+  m_Name: MaxDeck
+  m_EditorClassIdentifier: 
+  listOfData:
+  - {fileID: 11400000, guid: 541a33f7affde3141a3778c4aa4f42f9, type: 2}
+  - {fileID: 11400000, guid: e0acb87b17788694b9c3a2bc26cec2ef, type: 2}
+  - {fileID: 11400000, guid: 50b7d52d4016ffc40be22b3204f71d23, type: 2}
+  - {fileID: 11400000, guid: e0cda0677d552c040804b84b1a79e568, type: 2}

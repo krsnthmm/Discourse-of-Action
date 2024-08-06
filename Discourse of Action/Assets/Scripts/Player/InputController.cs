@@ -54,6 +54,16 @@ public class InputController : MonoBehaviour
             keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Interact");
         else if (Input.GetKeyDown(KeyCode.Escape))
             keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Pause");
+        else if (Input.GetKeyDown(KeyCode.Space))
+            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Advance Dialogue");
+        else if (Input.GetKeyDown(KeyCode.F1))
+            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Level 1");
+        else if (Input.GetKeyDown(KeyCode.F2))
+            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Level 2");
+        else if (Input.GetKeyDown(KeyCode.F3))
+            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Level 3");
+        else if (Input.GetKeyDown(KeyCode.Tab))
+            keyboardInputCommand = new KeyboardInputCommand(Time.time - _replayButtonToggledTime, "Advance Battle");
 
         return keyboardInputCommand != null;
     }
